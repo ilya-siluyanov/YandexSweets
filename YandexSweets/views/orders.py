@@ -22,10 +22,11 @@ class Orders(APIView):
                 existing_order = Order.objects.get(pk=order_id)
                 serializer = OrderSerializer(existing_order, data=order)
             except Order.DoesNotExist:
-                serializer = OrderSerializer(data=Order)
+                serializer = OrderSerializer(data=order)
             if serializer.is_valid():
                 serializer.save()
             else:
+                print(serializer.errors)
                 invalid_orders_id.append(id_entity_json)
 
         if len(invalid_orders_id) > 0:
@@ -38,9 +39,7 @@ class Orders(APIView):
             response_status = status.HTTP_400_BAD_REQUEST
         else:
             response_body = {
-                "validation_error": {
-                    "orders": invalid_orders_id
-                }
+                "orders": orders_id
             }
             response_body = json.dumps(response_body)
             response_status = status.HTTP_201_CREATED

@@ -41,18 +41,19 @@ class Couriers(APIView):
             if serializer.is_valid():
                 serializer.save()
             else:
+                print(serializer.errors)
                 invalid_couriers_id.append(json_courier_id)
         if len(invalid_couriers_id) > 0:
             validation_error_object = {
                 'validation_error_object': {
-                    'Couriers': invalid_couriers_id
+                    'couriers': invalid_couriers_id
                 }
             }
             response_body = json.dumps(validation_error_object)
             response_status = status.HTTP_400_BAD_REQUEST
         else:
             response_body = {
-                'Couriers': couriers_id
+                'couriers': couriers_id
             }
             response_body = json.dumps(response_body)
             response_status = status.HTTP_201_CREATED
