@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 
 from YandexSweets.models import Courier
 from YandexSweets.serializers import CourierSerializer
+from YandexSweets.views import get_start_end_periods
 
 
 class Couriers(APIView):
@@ -31,9 +32,16 @@ class Couriers(APIView):
             courier_id = courier['courier_id']
             json_courier_id = {'id': courier_id}
             couriers_id.append(json_courier_id)
+            if 'working_hours' not in courier.keys():
+                courier['working_hours'] = []
+            periods_c = courier['working_hours']
+            periods = []
+            for period in periods_c:
+                periods += [get_start_end_periods(period)]
+            courier['working_hours'] = periods
             try:
                 existing_courier = Courier.objects.get(pk=courier_id)
-                serializer = CourierSerializer(existing_courier, data=courier)
+                serializer = CourierSerializer(existing_courier, data=courier, partial=True)
             except Courier.DoesNotExist:
                 serializer = CourierSerializer(data=courier)
             except Exception:

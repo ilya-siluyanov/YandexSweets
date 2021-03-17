@@ -6,10 +6,13 @@ from rest_framework.views import APIView
 
 from YandexSweets.models.order import Order
 from YandexSweets.serializers.order_serializer import OrderSerializer
+from YandexSweets.views.time_utils import get_start_end_periods
 
 
 class Orders(APIView):
-    def post(self, request):
+
+    @staticmethod
+    def post(request):
         received_body = json.loads(request.data)
         orders_list = received_body['data']
         orders_id = []
@@ -18,6 +21,13 @@ class Orders(APIView):
             order_id = order['order_id']
             id_entity_json = {'id': order_id}
             orders_id.append(id_entity_json)
+            if 'delivery_hours' not in order.keys():
+                order['delivery_hours'] = []
+            periods_c = order['delivery_hours']
+            periods = []
+            for period in periods_c:
+                periods += [get_start_end_periods(period)]
+            order['delivery_hours'] = periods
             try:
                 existing_order = Order.objects.get(pk=order_id)
                 serializer = OrderSerializer(existing_order, data=order)

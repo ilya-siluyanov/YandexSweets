@@ -20,4 +20,4 @@ class Courier(models.Model):
                                     , default='foot')
 
     regions = pg_fields.ArrayField(fields.IntegerField())
-    working_hours = pg_fields.ArrayField(fields.CharField(max_length=12))
+    working_hours = pg_fields.ArrayField(pg_fields.ArrayField(fields.IntegerField(), size=2))
