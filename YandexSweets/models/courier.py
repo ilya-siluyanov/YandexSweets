@@ -9,6 +9,13 @@ class Courier(models.Model):
     foot = 'foot'
     bike = 'bike'
     car = 'car'
+
+    COURIER_MAX_WEIGHT = {
+        foot: 10,
+        bike: 15,
+        car: 50
+    }
+
     COURIER_TYPE_CHOICES = (
         (foot, foot),
         (bike, foot),
@@ -21,3 +28,6 @@ class Courier(models.Model):
 
     regions = pg_fields.ArrayField(fields.IntegerField())
     working_hours = pg_fields.ArrayField(pg_fields.ArrayField(fields.IntegerField(), size=2))
+
+    def get_orders(self):
+        return self.order_set.all()

@@ -12,5 +12,6 @@ def post(path, file_name):
     print(json.loads(response.content))
 
 
-post('/couriers', 'couriers_data.json')
-post('/orders', 'orders_data.json')
+post('/couriers', 'files/couriers_data.json')
+post('/orders', 'files/orders_data.json')
+post('/orders/assign', 'files/orders_assign_data.json')

@@ -41,15 +41,15 @@ class Orders(APIView):
 
         if len(invalid_orders_id) > 0:
             response_body = {
-                "validation_error": {
-                    "orders": invalid_orders_id
+                'validation_error': {
+                    'orders': invalid_orders_id
                 }
             }
             response_body = json.dumps(response_body)
             response_status = status.HTTP_400_BAD_REQUEST
         else:
             response_body = {
-                "orders": orders_id
+                'orders': orders_id
             }
             response_body = json.dumps(response_body)
             response_status = status.HTTP_201_CREATED
