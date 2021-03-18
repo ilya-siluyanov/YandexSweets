@@ -11,19 +11,48 @@ from ... import serializers
 
 
 class CouriersView(APIView):
+    C = {
+        Courier.foot: 2,
+        Courier.bike: 5,
+        Courier.car: 9
+    }
 
     @staticmethod
     def get(request, c_id):
         try:
-            courier_object = Courier.objects.get(pk=c_id)
+            courier = Courier.objects.get(pk=c_id)
         except Courier.DoesNotExist:
-            return Response(data={}, status=status.HTTP_400_BAD_REQUEST)
-        courier_object_dict = CourierSerializer(courier_object).data
-        for ind, period in enumerate(courier_object_dict['working_hours']):
-            courier_object_dict['working_hours'][ind] = parse_time(period[0]) \
-                                                        + '-' \
-                                                        + parse_time(period[1])
-        return Response(data=json.dumps(courier_object_dict), status=status.HTTP_201_CREATED)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        completed_orders = courier.order_set \
+            .filter(courier_id=courier.courier_id) \
+            .filter(completed_time__isnull=False) \
+            .filter(region__in=courier.regions)
+        delivery_time_and_times = {}
+        earnings = 0
+        for completed_order in completed_orders:
+            pair = delivery_time_and_times[completed_order.region] \
+                if completed_order.region in delivery_time_and_times.keys() else {}
+            for key in ('time', 'times'):
+                if key not in pair.keys():
+                    pair[key] = 0
+            pair['time'] += (completed_order.completed_time
+                             - completed_order.assign_to_courier_time).seconds
+            pair['times'] += 1
+            delivery_time_and_times[completed_order.region] = pair
+            c = CouriersView.C[completed_order.delivery_type]
+            earnings += 500 * c
+        t = -1
+        for region_info in delivery_time_and_times.items():
+            td = region_info[1]['time'] / region_info[1]['times']
+            if t == -1:
+                t = td
+            else:
+                t = min(t, td)
+        rating = (60 * 60 - min(t, 60 * 60)) / (60 * 60) * 5
+        res_body = serializers.CourierSerializer(courier).data
+        res_body['rating'] = float('{:.2f}'.format(rating))
+        res_body['earnings'] = earnings
+        return Response(data=json.dumps(res_body), status=status.HTTP_200_OK)
 
     @staticmethod
     def post(request):
@@ -92,7 +121,7 @@ class CouriersView(APIView):
                 'description': 'There is no such a courier with id=' + str(c_id)
             }
             res_body = json.dumps(res_body)
-            return Response(data=res_body, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data=res_body, status=status.HTTP_404_NOT_FOUND)
         for field in req_body.keys():
             courier[field] = req_body[field]
         courier.save()

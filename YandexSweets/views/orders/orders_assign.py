@@ -25,14 +25,15 @@ class OrdersAssignView(APIView):
             .filter(completed_time__isnull=True) \
             .filter(region__in=courier.regions) \
             .filter(weight__lte=Courier.COURIER_MAX_WEIGHT[courier.courier_type])
-
+        current_time = dt.now()
         for order in orders:
             for delivery_hour in order.delivery_hours:
                 found = False
                 for working_hour in courier.working_hours:
                     if inside_bounds(delivery_hour, working_hour):
                         order.courier = courier
-                        order.assign_to_courier_time = dt.now()
+                        order.assign_to_courier_time = current_time
+                        order.delivery_type = courier.courier_type
                         order.save()
                         found = True
                         break
@@ -41,10 +42,7 @@ class OrdersAssignView(APIView):
         response_body = {
             'orders': [{'id': order.order_id} for order in orders]
         }
-
+        courier.save()
         if len(orders) > 0:
-            courier.last_order_complete = dt.now()
-            courier.save()
             response_body['assign_time'] = get_formatted_current_time()
-
         return Response(data=json.dumps(response_body), status=status.HTTP_200_OK)

@@ -31,8 +31,6 @@ class Courier(models.Model):
     regions = pg_fields.ArrayField(fields.IntegerField())
     working_hours = pg_fields.ArrayField(pg_fields.ArrayField(fields.IntegerField(), size=2))
 
-    last_order_complete = fields.DateTimeField(null=True)
-
     def make_order_free(self, order):
         if order not in self.order_set.all():
             return

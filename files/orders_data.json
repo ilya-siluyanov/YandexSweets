@@ -7,14 +7,6 @@
       "delivery_hours": [
         "09:00-18:00"
       ]
-    },
-    {
-      "order_id": 2,
-      "weight": 5.1,
-      "region": 1,
-      "delivery_hours": [
-        "09:00-18:00"
-      ]
     }
   ]
 }

@@ -13,6 +13,7 @@ class Order(models.Model):
     courier = models.ForeignKey(Courier, on_delete=models.CASCADE, default=None, blank=True, null=True)
     assign_to_courier_time = fields.DateTimeField(null=True)
     completed_time = fields.DateTimeField(null=True)
+    delivery_type = fields.CharField(max_length=4, choices=Courier.COURIER_TYPE_CHOICES, null=True)
 
     def is_completed(self):
         return self.completed_time is not None

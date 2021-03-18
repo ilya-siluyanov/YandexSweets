@@ -19,6 +19,7 @@ class OrdersCompleteView(APIView):
             courier = Courier.objects.get(pk=req_data.courier_id)
             order = courier.order_set.get(pk=req_data.order_id)
             order.set_completed(dt.strptime(req_data.complete_time, '%Y-%m-%dT%H:%M:%S.%fZ'))
+            order.save()
         except (ValidationError, Order.DoesNotExist, Courier.DoesNotExist, Exception) as e:
             return Response(data=e.args, status=status.HTTP_400_BAD_REQUEST)
         return Response(data=json.dumps({'order_id': order.order_id}), status=status.HTTP_200_OK)
