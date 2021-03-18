@@ -1,4 +1,5 @@
 import json
+from datetime import datetime as dt
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -15,38 +16,35 @@ class OrdersAssignView(APIView):
         req_body = json.loads(request.data)
         try:
             courier = Courier.objects.get(pk=req_body['courier_id'])
-        except Courier.DoesNotExist:
-            res_body = {
-                'description': 'There is no such a courier with id=' + str(req_body['courier_id'])
-            }
-            res_body = json.dumps(res_body)
+        except Courier.DoesNotExist as e:
+            res_body = json.dumps(e.args)
             return Response(data=res_body, status=status.HTTP_400_BAD_REQUEST)
-        orders = Order.objects.filter(courier__courier_id__isnull=True)
-        orders = orders.filter(region__in=courier.regions)
-        orders = orders.filter(
-            weight__lte=Courier.COURIER_MAX_WEIGHT[courier.courier_type])
-        orders_copy = orders[:]
-        orders = []
 
-        for order in orders_copy:
+        orders = Order.objects \
+            .filter(courier__courier_id__isnull=True) \
+            .filter(completed_time__isnull=True) \
+            .filter(region__in=courier.regions) \
+            .filter(weight__lte=Courier.COURIER_MAX_WEIGHT[courier.courier_type])
+
+        for order in orders:
             for delivery_hour in order.delivery_hours:
                 found = False
                 for working_hour in courier.working_hours:
                     if inside_bounds(delivery_hour, working_hour):
-                        orders.append(order)
+                        order.courier = courier
+                        order.assign_to_courier_time = dt.now()
+                        order.save()
                         found = True
                         break
                 if found:
                     break
-
-        for order in orders:
-            order.courier = courier
-            order.save()
         response_body = {
             'orders': [{'id': order.order_id} for order in orders]
         }
 
         if len(orders) > 0:
+            courier.last_order_complete = dt.now()
+            courier.save()
             response_body['assign_time'] = get_formatted_current_time()
 
         return Response(data=json.dumps(response_body), status=status.HTTP_200_OK)

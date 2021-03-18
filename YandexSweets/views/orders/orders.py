@@ -15,40 +15,37 @@ class Orders(APIView):
     def post(request):
         received_body = json.loads(request.data)
         orders_list = received_body['data']
-        orders_id = []
-        invalid_orders_id = []
+        order_ids = [{'id': order['order_id']} for order in orders_list]
+        invalid_order_ids = []
         for order in orders_list:
             order_id = order['order_id']
-            id_entity_json = {'id': order_id}
-            orders_id.append(id_entity_json)
             if 'delivery_hours' not in order.keys():
                 order['delivery_hours'] = []
-            periods = []
             for index, period in enumerate(order['delivery_hours']):
-                periods += [get_start_end_periods(period)]
-            order['delivery_hours'] = periods
+                order['delivery_hours'][index] = get_start_end_periods(period)
             try:
                 existing_order = Order.objects.get(pk=order_id)
                 serializer = OrderSerializer(existing_order, data=order)
-            except Order.DoesNotExist:
+            except Order.DoesNotExist as e:
+                print(e.args)
                 serializer = OrderSerializer(data=order)
             if serializer.is_valid():
                 serializer.save()
             else:
                 print(serializer.errors)
-                invalid_orders_id.append(id_entity_json)
+                invalid_order_ids.append({'id': order['order_id']})
 
-        if len(invalid_orders_id) > 0:
+        if len(invalid_order_ids) > 0:
             response_body = {
                 'validation_error': {
-                    'orders': invalid_orders_id
+                    'orders': invalid_order_ids
                 }
             }
             response_body = json.dumps(response_body)
             response_status = status.HTTP_400_BAD_REQUEST
         else:
             response_body = {
-                'orders': orders_id
+                'orders': order_ids
             }
             response_body = json.dumps(response_body)
             response_status = status.HTTP_201_CREATED

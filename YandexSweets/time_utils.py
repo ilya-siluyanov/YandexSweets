@@ -3,15 +3,15 @@ from datetime import datetime as dt
 from typing import List
 
 
-def minutes_from_day_start(time: str):
+def seconds_from_day_start(time: str):
     hours, minutes = [int(i) for i in time.split(':')]
-    return hours * 60 + minutes
+    return hours * 3600 + minutes * 60
 
 
 def get_start_end_periods(time: str):
     time_start, time_end = time.split('-')
-    time_start = minutes_from_day_start(time_start)
-    time_end = minutes_from_day_start(time_end)
+    time_start = seconds_from_day_start(time_start)
+    time_end = seconds_from_day_start(time_end)
     return time_start, time_end
 
 
@@ -31,10 +31,13 @@ def get_formatted_current_time():
     return res[:ind + 3] + 'Z'
 
 
-def parse_time(minutes: int):
-    hours = str(minutes // 60)
-    minutes = str(minutes % 60)
-    h_m_list = [hours, minutes]
+def parse_time(seconds: int):
+    hours = str(seconds // 3600)
+    seconds = seconds % 3600
+    minutes = str(seconds // 60)
+    seconds = seconds % 60
+    seconds = str(seconds)
+    h_m_list = [hours, minutes, seconds]
     for ind, t in enumerate(h_m_list):
         while len(h_m_list[ind]) < 2:
             h_m_list[ind] = '0' + h_m_list[ind]

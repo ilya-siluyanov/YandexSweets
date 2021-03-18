@@ -11,6 +11,7 @@ class Order(models.Model):
     region = fields.IntegerField()
     delivery_hours = pg_fields.ArrayField(pg_fields.ArrayField(fields.IntegerField(), size=2))
     courier = models.ForeignKey(Courier, on_delete=models.CASCADE, default=None, blank=True, null=True)
+    assign_to_courier_time = fields.DateTimeField(null=True)
     completed_time = fields.DateTimeField(null=True)
 
     def is_completed(self):
