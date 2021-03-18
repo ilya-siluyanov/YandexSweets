@@ -2,37 +2,11 @@
   "data": [
     {
       "courier_id": 1,
-      "courier_type": "foot",
-      "regions": [
-        1,
-        2,
-        3
-      ],
-      "working_hours": [
-        "00:00-23:59",
-        "00:00-23:59"
-      ]
-    },
-    {
-      "courier_id": 2,
-      "courier_type": "bike",
-      "regions": [
-        4
-      ],
-      "working_hours": [
-        "00:00-23:59",
-        "00:00-23:59"
-      ]
-    },
-    {
-      "courier_id": 3,
       "courier_type": "car",
       "regions": [
-        5,
-        6
+        1
       ],
       "working_hours": [
-        "00:00-23:59",
         "00:00-23:59"
       ]
     }

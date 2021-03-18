@@ -1,5 +1,7 @@
 from datetime import datetime as dt
 
+from typing import List
+
 
 def minutes_from_day_start(time: str):
     hours, minutes = [int(i) for i in time.split(':')]
@@ -13,7 +15,7 @@ def get_start_end_periods(time: str):
     return time_start, time_end
 
 
-def inside_bounds(order_time_bounds, courier_time_bounds):
+def inside_bounds(order_time_bounds: List[int], courier_time_bounds: List[int]):
     lower_bound = courier_time_bounds[0]
     upper_bound = courier_time_bounds[1]
     first_case = lower_bound <= order_time_bounds[0] <= upper_bound

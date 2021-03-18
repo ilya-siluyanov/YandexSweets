@@ -1,8 +1,8 @@
+from django.contrib.postgres import fields as pg_fields
 from django.db import models
 from django.db.models import fields
-from django.contrib.postgres import fields as pg_fields
 
-from YandexSweets.models import Courier
+from .courier import Courier
 
 
 class Order(models.Model):
