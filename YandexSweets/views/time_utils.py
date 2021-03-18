@@ -27,3 +27,15 @@ def get_formatted_current_time():
     while res[ind] != '.':
         ind -= 1
     return res[:ind + 3] + 'Z'
+
+
+def parse_time(minutes: int):
+    hours = str(minutes // 60)
+    minutes = str(minutes % 60)
+    h_m_list = [hours, minutes]
+    for ind, t in enumerate(h_m_list):
+        while len(h_m_list[ind]) < 2:
+            h_m_list[ind] = '0' + h_m_list[ind]
+    hours = h_m_list[0]
+    minutes = h_m_list[1]
+    return hours + ':' + minutes

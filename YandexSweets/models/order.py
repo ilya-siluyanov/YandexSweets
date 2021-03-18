@@ -10,4 +10,12 @@ class Order(models.Model):
     weight = fields.FloatField()
     region = fields.IntegerField()
     delivery_hours = pg_fields.ArrayField(pg_fields.ArrayField(fields.IntegerField(), size=2))
-    courier = models.ForeignKey(Courier, on_delete=models.CASCADE, default=None,blank=True,null=True)
+    courier = models.ForeignKey(Courier, on_delete=models.CASCADE, default=None, blank=True, null=True)
+    completed_time = fields.DateTimeField(null=True)
+
+    def is_completed(self):
+        return self.completed_time is not None
+
+    def set_completed(self, timestamp):
+        if not self.is_completed():
+            self.completed_time = timestamp

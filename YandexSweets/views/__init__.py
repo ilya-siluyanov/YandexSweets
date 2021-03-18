@@ -1,4 +1,4 @@
 from .orders import *
 from .couriers import *
-from .orders_assign import OrdersAssign
-from .orders_complete import OrdersComplete
+from YandexSweets.views.orders.orders_assign import OrdersAssignView
+from YandexSweets.views.orders.orders_complete import OrdersCompleteView

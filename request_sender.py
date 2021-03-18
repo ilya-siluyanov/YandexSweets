@@ -15,3 +15,4 @@ def post(path, file_name):
 post('/couriers', 'files/couriers_data.json')
 post('/orders', 'files/orders_data.json')
 post('/orders/assign', 'files/orders_assign_data.json')
+post('/orders/complete', 'files/order_complete_data.json')
