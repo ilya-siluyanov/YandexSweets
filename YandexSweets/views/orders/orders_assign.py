@@ -13,7 +13,9 @@ from YandexSweets.time_utils import inside_bounds, get_formatted_current_time
 class OrdersAssignView(APIView):
     @staticmethod
     def post(request):
-        req_body = json.loads(request.data)
+        req_body = request.data
+        if request.content_type != 'application/json':
+            req_body = json.loads(request.data)
         try:
             courier = Courier.objects.get(pk=req_body['courier_id'])
         except Courier.DoesNotExist as e:

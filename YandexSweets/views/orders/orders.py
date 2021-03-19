@@ -6,34 +6,33 @@ from rest_framework.views import APIView
 
 from YandexSweets.models.order import Order
 from YandexSweets.serializers.order_serializer import OrderSerializer
-from YandexSweets.time_utils import get_start_end_periods
 
 
 class Orders(APIView):
 
     @staticmethod
     def post(request):
-        received_body = json.loads(request.data)
-        orders_list = received_body['data']
-        order_ids = [{'id': order['order_id']} for order in orders_list]
+        req_body = request.data
+        if request.content_type != 'application/json':
+            req_body = json.loads(request.data)
+        orders_list = req_body['data']
+        order_ids = []
         invalid_order_ids = []
         for order in orders_list:
             order_id = order['order_id']
-            if 'delivery_hours' not in order.keys():
-                order['delivery_hours'] = []
-            for index, period in enumerate(order['delivery_hours']):
-                order['delivery_hours'][index] = get_start_end_periods(period)
+            dict_order_id = {'id': order_id}
+            order_ids.append(dict_order_id)
             try:
                 existing_order = Order.objects.get(pk=order_id)
                 serializer = OrderSerializer(existing_order, data=order)
-            except Order.DoesNotExist as e:
-                print(e.args)
+            except Order.DoesNotExist:
                 serializer = OrderSerializer(data=order)
             if serializer.is_valid():
                 serializer.save()
             else:
-                print(serializer.errors)
-                invalid_order_ids.append({'id': order['order_id']})
+                for error in serializer.errors.items():
+                    dict_order_id[error[0]] = str(error[1][0])
+                invalid_order_ids.append(dict_order_id)
 
         if len(invalid_order_ids) > 0:
             response_body = {

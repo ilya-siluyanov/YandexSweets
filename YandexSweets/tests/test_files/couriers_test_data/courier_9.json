@@ -1,0 +1,23 @@
+{
+  "input": {
+    "data": [
+        {
+          "courier_id": 9,
+          "courier_type": "foot",
+          "regions": [
+            1,
+            2,
+            3
+          ],
+          "working_hours": [
+            "0:0-2:2"
+          ]
+        }
+    ]
+  },
+  "expect": {
+    "fields_with_errors": [
+      "working_hours"
+    ]
+  }
+}

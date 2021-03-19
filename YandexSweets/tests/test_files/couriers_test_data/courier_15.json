@@ -1,0 +1,16 @@
+{
+  "input": {
+    "data": [
+      {
+        "courier_id": 15
+      }
+    ]
+  },
+  "expect": {
+    "fields_with_errors": [
+      "courier_type",
+      "regions",
+      "working_hours"
+    ]
+  }
+}

@@ -2,6 +2,8 @@ import json
 
 import requests as req
 
+from YandexSweetsProject.settings import BASE_DIR
+
 
 def send(path, file_name, method):
     print(method.__name__ + ' ' + path + ' ' + file_name)
@@ -14,8 +16,9 @@ def send(path, file_name, method):
     print()
 
 
-send('/couriers', 'files/couriers_data.json', req.post)
-send('/orders', 'files/orders_data.json', req.post)
-send('/orders/assign', 'files/orders_assign_data.json', req.post)
-send('/orders/complete', 'files/order_complete_data.json', req.post)
-send('/couriers/1', 'files/order_complete_data.json', req.get)
+send('/couriers', str(BASE_DIR) + '/test_files/couriers_data.json', req.post)
+send('/orders', str(BASE_DIR) + '/test_files/orders_data.json', req.post)
+send('/orders/assign', str(BASE_DIR) + '/test_files/orders_assign_data.json', req.post)
+send('/orders/assign', str(BASE_DIR) + '/test_files/orders_assign_data.json', req.post)
+send('/orders/complete', str(BASE_DIR) + '/test_files/order_complete_data.json', req.post)
+send('/couriers/1', str(BASE_DIR) + '/test_files/order_complete_data.json', req.get)

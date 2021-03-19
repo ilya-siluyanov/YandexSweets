@@ -1,13 +1,13 @@
 import json
 
 from rest_framework import status
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from YandexSweets import serializers
 from YandexSweets.models import Courier
 from YandexSweets.serializers import CourierSerializer
-from YandexSweets.time_utils import *
-from ... import serializers
 
 
 class CouriersView(APIView):
@@ -18,7 +18,7 @@ class CouriersView(APIView):
     }
 
     @staticmethod
-    def get(request, c_id):
+    def get(request: Request, c_id):
         try:
             courier = Courier.objects.get(pk=c_id)
         except Courier.DoesNotExist:
@@ -49,53 +49,52 @@ class CouriersView(APIView):
             else:
                 t = min(t, td)
         rating = (60 * 60 - min(t, 60 * 60)) / (60 * 60) * 5
-        res_body = serializers.CourierSerializer(courier).data
+        res_body = CourierSerializer(courier).data
         res_body['rating'] = float('{:.2f}'.format(rating))
         res_body['earnings'] = earnings
         return Response(data=json.dumps(res_body), status=status.HTTP_200_OK)
 
     @staticmethod
-    def post(request):
-        received_body = json.loads(request.data)
-        courier_list = received_body['data']
+    def post(request: Request):
+        req_body = request.data
+        if request.content_type != 'application/json':
+            req_body = json.loads(request.data)
+        courier_list = req_body['data']
 
-        couriers_id = []
-        invalid_couriers_id = []
+        courier_ids = []
+        invalid_courier_ids = []
 
         for courier in courier_list:
             courier_id = courier['courier_id']
-            json_courier_id = {'id': courier_id}
-            couriers_id.append(json_courier_id)
-            if 'working_hours' not in courier.keys():
-                courier['working_hours'] = []
-            periods_c = courier['working_hours']
-            periods = []
-            for period in periods_c:
-                periods += [get_start_end_periods(period)]
-            courier['working_hours'] = periods
+            dict_courier_id = {'id': courier_id}
+            courier_ids.append(dict_courier_id)
+
             try:
                 existing_courier = Courier.objects.get(pk=courier_id)
-                serializer = CourierSerializer(existing_courier, data=courier, partial=True)
+                serializer = CourierSerializer(existing_courier, data=courier)
             except Courier.DoesNotExist:
                 serializer = CourierSerializer(data=courier)
             except Exception:
                 serializer = CourierSerializer(data=courier)
+
             if serializer.is_valid():
                 serializer.save()
             else:
-                print(serializer.errors)
-                invalid_couriers_id.append(json_courier_id)
-        if len(invalid_couriers_id) > 0:
+                for error in serializer.errors.items():
+                    dict_courier_id[error[0]] = str(error[1][0])
+                invalid_courier_ids.append(dict_courier_id)
+
+        if len(invalid_courier_ids) > 0:
             validation_error_object = {
-                'validation_error_object': {
-                    'couriers': invalid_couriers_id
+                'validation_error': {
+                    'couriers': invalid_courier_ids
                 }
             }
             response_body = json.dumps(validation_error_object)
             response_status = status.HTTP_400_BAD_REQUEST
         else:
             response_body = {
-                'couriers': couriers_id
+                'couriers': courier_ids
             }
             response_body = json.dumps(response_body)
             response_status = status.HTTP_201_CREATED
@@ -103,16 +102,12 @@ class CouriersView(APIView):
 
     @staticmethod
     def patch(request, c_id):
-        req_body = json.loads(request.data)
-
-        for field in req_body.keys():
-            if req_body[field] is None:
-                res_body = {
-                    'description':
-                        'There is no value for field ' + field
-                }
-                res_body = json.dumps(res_body)
-                return Response(data=res_body, status=status.HTTP_400_BAD_REQUEST)
+        req_body = request.data
+        if request.content_type != 'application/json':
+            req_body = json.loads(request.data)
+        serializer = serializers.CourierSerializer(data=req_body, partial=True)
+        if not serializer.is_valid():
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             courier = Courier.objects.get(pk=c_id)
@@ -138,5 +133,5 @@ class CouriersView(APIView):
             if order.region not in courier.regions:
                 courier.make_order_free(order)
 
-        res_body = serializers.CourierSerializer(Courier.objects.get(pk=c_id)).data
+        res_body = CourierSerializer(Courier.objects.get(pk=c_id)).data
         return Response(data=res_body, status=status.HTTP_200_OK)

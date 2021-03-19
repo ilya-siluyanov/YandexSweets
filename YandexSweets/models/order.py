@@ -9,7 +9,7 @@ class Order(models.Model):
     order_id = fields.IntegerField(primary_key=True)
     weight = fields.FloatField()
     region = fields.IntegerField()
-    delivery_hours = pg_fields.ArrayField(pg_fields.ArrayField(fields.IntegerField(), size=2))
+    delivery_hours = pg_fields.ArrayField(fields.CharField(max_length=12))
     courier = models.ForeignKey(Courier, on_delete=models.CASCADE, default=None, blank=True, null=True)
     assign_to_courier_time = fields.DateTimeField(null=True)
     completed_time = fields.DateTimeField(null=True)
@@ -21,3 +21,12 @@ class Order(models.Model):
     def set_completed(self, timestamp):
         if not self.is_completed():
             self.completed_time = timestamp
+
+    def __getitem__(self, item):
+        return getattr(self, item)
+
+    def __setitem__(self, key, value):
+        setattr(self, key, value)
+
+    def get_list_of_fields(self):
+        return self._meta.get_fields()

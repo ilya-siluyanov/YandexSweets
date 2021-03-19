@@ -8,11 +8,16 @@ def seconds_from_day_start(time: str):
     return hours * 3600 + minutes * 60
 
 
-def get_start_end_periods(time: str):
-    time_start, time_end = time.split('-')
-    time_start = seconds_from_day_start(time_start)
-    time_end = seconds_from_day_start(time_end)
-    return time_start, time_end
+def get_start_end_period(time: str):
+    return time.split('-')
+
+
+def is_correct_hours(hours: str):
+    try:
+        h, m = hours.split(':')
+        return len(h) == 2 and len(m) == 2
+    except Exception:
+        return False
 
 
 def inside_bounds(order_time_bounds: List[int], courier_time_bounds: List[int]):

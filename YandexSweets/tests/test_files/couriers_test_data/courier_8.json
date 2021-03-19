@@ -1,0 +1,21 @@
+{
+  "input": {
+    "data": [
+      {
+        "courier_id": 8,
+        "courier_type": "car",
+        "regions": [
+          1,
+          2,
+          3
+        ],
+        "working_hours": []
+      }
+    ]
+  },
+  "expect": {
+    "fields_with_errors": [
+      "working_hours"
+    ]
+  }
+}
