@@ -58,7 +58,6 @@ class CourierSerializer(serializers.Serializer):
         return instance
 
     def create(self, validated_data):
-
         return Courier.objects.create(**validated_data)
 
     def validate(self, data: dict):

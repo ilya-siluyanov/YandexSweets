@@ -3,7 +3,7 @@
     "data": [
       {
         "courier_id": 7,
-        "courier_type": "car",
+        "courier_type": "cat",
         "regions": [
           1
         ],
@@ -14,6 +14,8 @@
     ]
   },
   "expect": {
-    "fields_with_errors": []
+    "fields_with_errors": [
+      "courier_type"
+    ]
   }
 }

@@ -1,0 +1,19 @@
+{
+  "input": {
+    "data": [
+      {
+        "order_id": 5,
+        "weight": 25,
+        "region": "as-salamu_aleikum",
+        "delivery_hours": [
+          "09:00-09:01"
+        ]
+      }
+    ]
+  },
+  "expect": {
+    "fields_with_errors": [
+      "region"
+    ]
+  }
+}

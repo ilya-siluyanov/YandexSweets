@@ -8,7 +8,7 @@ from YandexSweets.models.order import Order
 from YandexSweets.serializers.order_serializer import OrderSerializer
 
 
-class Orders(APIView):
+class OrdersView(APIView):
 
     @staticmethod
     def post(request):
@@ -24,9 +24,10 @@ class Orders(APIView):
             order_ids.append(dict_order_id)
             try:
                 existing_order = Order.objects.get(pk=order_id)
-                serializer = OrderSerializer(existing_order, data=order)
+                serializer = OrderSerializer(existing_order, data=existing_order.__dict__)
             except Order.DoesNotExist:
                 serializer = OrderSerializer(data=order)
+
             if serializer.is_valid():
                 serializer.save()
             else:

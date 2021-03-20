@@ -1,0 +1,18 @@
+{
+  "input": {
+    "data": [
+      {
+        "order_id": 14,
+        "weight": 16,
+        "region": 2,
+        "delivery_hours": [
+          "12:00-21:30"
+        ]
+      }
+    ]
+  },
+  "expect": {
+    "fields_with_errors": [
+    ]
+  }
+}

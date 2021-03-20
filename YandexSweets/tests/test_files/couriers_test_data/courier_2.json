@@ -3,19 +3,18 @@
     "data": [
       {
         "courier_id": 2,
-        "courier_type": "",
+        "courier_type": "bike",
         "regions": [
-          1
+          1,2
         ],
         "working_hours": [
-          "00:00-23:59"
+          "10:00-12:00"
         ]
       }
     ]
   },
   "expect": {
     "fields_with_errors": [
-      "courier_type"
     ]
   }
 }

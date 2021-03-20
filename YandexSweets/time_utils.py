@@ -1,7 +1,5 @@
 from datetime import datetime as dt
 
-from typing import List
-
 
 def seconds_from_day_start(time: str):
     hours, minutes = [int(i) for i in time.split(':')]
@@ -15,14 +13,17 @@ def get_start_end_period(time: str):
 def is_correct_hours(hours: str):
     try:
         h, m = hours.split(':')
-        return len(h) == 2 and len(m) == 2
+        return (len(h) == 2 and len(m) == 2) and (0 <= int(h) <= 23 and 0 <= int(m) <= 59)
     except Exception:
         return False
 
 
-def inside_bounds(order_time_bounds: List[int], courier_time_bounds: List[int]):
-    lower_bound = courier_time_bounds[0]
-    upper_bound = courier_time_bounds[1]
+def inside_bounds(order_time_bounds: str, courier_time_bounds: str):
+    order_time_bounds = get_start_end_period(order_time_bounds)
+    courier_time_bounds = get_start_end_period(courier_time_bounds)
+    order_time_bounds = [seconds_from_day_start(order_time_bounds[0]), seconds_from_day_start(order_time_bounds[1])]
+    lower_bound, upper_bound = seconds_from_day_start(courier_time_bounds[0]), seconds_from_day_start(
+        courier_time_bounds[1])
     first_case = lower_bound <= order_time_bounds[0] <= upper_bound
     second_case = lower_bound <= order_time_bounds[1] <= upper_bound
     return first_case or second_case

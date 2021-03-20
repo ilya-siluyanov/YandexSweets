@@ -1,11 +1,11 @@
 import json
 
 from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from YandexSweets import serializers
 from YandexSweets.models import Courier
 from YandexSweets.serializers import CourierSerializer
 
@@ -25,8 +25,7 @@ class CouriersView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         completed_orders = courier.order_set \
             .filter(courier_id=courier.courier_id) \
-            .filter(completed_time__isnull=False) \
-            .filter(region__in=courier.regions)
+            .filter(completed_time__isnull=False)
         delivery_time_and_times = {}
         earnings = 0
         for completed_order in completed_orders:
@@ -48,9 +47,12 @@ class CouriersView(APIView):
                 t = td
             else:
                 t = min(t, td)
+        if t == -1:
+            t = 60 * 60
         rating = (60 * 60 - min(t, 60 * 60)) / (60 * 60) * 5
         res_body = CourierSerializer(courier).data
-        res_body['rating'] = float('{:.2f}'.format(rating))
+        if len(completed_orders) > 0:
+            res_body['rating'] = float('{:.2f}'.format(rating))
         res_body['earnings'] = earnings
         return Response(data=json.dumps(res_body), status=status.HTTP_200_OK)
 
@@ -71,7 +73,7 @@ class CouriersView(APIView):
 
             try:
                 existing_courier = Courier.objects.get(pk=courier_id)
-                serializer = CourierSerializer(existing_courier, data=courier)
+                serializer = CourierSerializer(existing_courier, data=existing_courier.__dict__)
             except Courier.DoesNotExist:
                 serializer = CourierSerializer(data=courier)
             except Exception:
@@ -105,22 +107,15 @@ class CouriersView(APIView):
         req_body = request.data
         if request.content_type != 'application/json':
             req_body = json.loads(request.data)
-        serializer = serializers.CourierSerializer(data=req_body, partial=True)
-        if not serializer.is_valid():
-            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
         try:
             courier = Courier.objects.get(pk=c_id)
-        except Courier.DoesNotExist as e:
-            res_body = {
-                'description': 'There is no such a courier with id=' + str(c_id)
-            }
-            res_body = json.dumps(res_body)
-            return Response(data=res_body, status=status.HTTP_404_NOT_FOUND)
-        for field in req_body.keys():
-            courier[field] = req_body[field]
-        courier.save()
-
+            serializer = CourierSerializer(courier, data=req_body, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+        except Courier.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except ValidationError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         for order in courier.order_set.all():
             if not courier.is_inside_working_time(order):
                 courier.make_order_free(order)

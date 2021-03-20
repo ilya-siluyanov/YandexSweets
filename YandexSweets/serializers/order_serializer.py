@@ -10,7 +10,7 @@ from YandexSweets.time_utils import get_start_end_period, is_correct_hours
 
 
 class OrderSerializer(serializers.Serializer):
-    courier_id = serializers.IntegerField(validators=[UniqueValidator(queryset=Order.objects.all())])
+    order_id = serializers.IntegerField(validators=[UniqueValidator(queryset=Order.objects.all())])
     weight = serializers.FloatField()
     region = serializers.IntegerField()
     delivery_hours = serializers.ListField(allow_empty=False, child=serializers.CharField(max_length=12))

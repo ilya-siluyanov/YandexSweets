@@ -1,6 +1,7 @@
 from django.contrib.postgres import fields as pg_fields
 from django.db import models
 from django.db.models import fields
+from rest_framework.validators import UniqueValidator
 
 from .courier import Courier
 

@@ -3,12 +3,12 @@
     "data": [
       {
         "courier_id": 1,
-        "courier_type": "car",
+        "courier_type": "foot",
         "regions": [
           1
         ],
         "working_hours": [
-          "00:00-23:59"
+          "21:19-22:22"
         ]
       }
     ]
