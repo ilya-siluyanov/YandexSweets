@@ -26,10 +26,7 @@ class PostOrdersComplete(TestCase):
             request = f.post('orders/complete', data=req_body, format='json')
             response = OrdersCompleteView.as_view()(request)
             status_code = response.status_code
-            if status_code == 400:
-                response.data = '{}'
-            response = json.loads(response.data)
-            print(json.dumps(response, indent=2))
+            print(status_code, json.dumps(response.data, indent=2))
             assert expect['status_code'] == status_code, \
                 'Expected the same codes, got {} and {}, file={}'.format(expect['status_code'], status_code,
                                                                          file)

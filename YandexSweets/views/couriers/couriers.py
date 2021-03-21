@@ -22,7 +22,8 @@ class CouriersView(APIView):
         try:
             courier = Courier.objects.get(pk=c_id)
         except Courier.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(data={'description': 'There is no such a courier with id={}'.format(c_id)},
+                            status=status.HTTP_404_NOT_FOUND)
         completed_orders = courier.order_set \
             .filter(courier_id=courier.courier_id) \
             .filter(completed_time__isnull=False)
@@ -54,7 +55,7 @@ class CouriersView(APIView):
         if len(completed_orders) > 0:
             res_body['rating'] = float('{:.2f}'.format(rating))
         res_body['earnings'] = earnings
-        return Response(data=json.dumps(res_body), status=status.HTTP_200_OK)
+        return Response(data=res_body, status=status.HTTP_200_OK)
 
     @staticmethod
     def post(request: Request):
@@ -73,6 +74,8 @@ class CouriersView(APIView):
 
             try:
                 Courier.objects.get(pk=courier_id)
+                dict_courier_id['description'] = 'There is an existing courier with such id'
+                invalid_courier_ids.append(dict_courier_id)
             except Courier.DoesNotExist:
                 serializer = CourierSerializer(data=courier)
                 if serializer.is_valid():
@@ -88,13 +91,13 @@ class CouriersView(APIView):
                     'couriers': invalid_courier_ids
                 }
             }
-            response_body = json.dumps(validation_error_object)
+            response_body = validation_error_object
             response_status = status.HTTP_400_BAD_REQUEST
         else:
             response_body = {
                 'couriers': courier_ids
             }
-            response_body = json.dumps(response_body)
+            response_body = response_body
             response_status = status.HTTP_201_CREATED
         return Response(data=response_body, status=response_status)
 
@@ -109,9 +112,10 @@ class CouriersView(APIView):
             if serializer.is_valid():
                 serializer.save()
         except Courier.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        except ValidationError:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={"description": "There is no such a courier with id={}".format(c_id)},
+                            status=status.HTTP_404_NOT_FOUND)
+        except ValidationError as e:
+            return Response(data=e.args, status=status.HTTP_400_BAD_REQUEST)
         for order in courier.order_set.all():
             if not courier.is_inside_working_time(order):
                 courier.make_order_free(order)

@@ -24,6 +24,8 @@ class OrdersView(APIView):
             order_ids.append(dict_order_id)
             try:
                 Order.objects.get(pk=order_id)
+                dict_order_id['description'] = 'There is an existing courier with such id'
+                invalid_order_ids.append(dict_order_id)
             except Order.DoesNotExist:
                 serializer = OrderSerializer(data=order)
                 if serializer.is_valid():
@@ -39,12 +41,10 @@ class OrdersView(APIView):
                     'orders': invalid_order_ids
                 }
             }
-            response_body = json.dumps(response_body)
             response_status = status.HTTP_400_BAD_REQUEST
         else:
             response_body = {
                 'orders': order_ids
             }
-            response_body = json.dumps(response_body)
             response_status = status.HTTP_201_CREATED
         return Response(data=response_body, status=response_status)

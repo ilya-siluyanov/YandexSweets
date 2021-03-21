@@ -22,8 +22,7 @@ class OrdersAssignView(APIView):
             req_body = OrdersAssign.parse_raw(req_body)
             courier = Courier.objects.get(pk=req_body.courier_id)
         except (Courier.DoesNotExist, ValidationError) as e:
-            res_body = json.dumps(e.args)
-            return Response(data=res_body, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data=e.args, status=status.HTTP_400_BAD_REQUEST)
         orders = Order.objects.filter(courier__courier_id__isnull=True)
         orders = orders.filter(completed_time__isnull=True)
         orders = orders.filter(region__in=courier.regions)
@@ -50,4 +49,4 @@ class OrdersAssignView(APIView):
         courier.save()
         if len(response_body['orders']) > 0:
             response_body['assign_time'] = get_formatted_current_time()
-        return Response(data=json.dumps(response_body), status=status.HTTP_200_OK)
+        return Response(data=response_body, status=status.HTTP_200_OK)

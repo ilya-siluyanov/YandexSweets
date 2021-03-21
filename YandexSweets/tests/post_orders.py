@@ -15,7 +15,9 @@ class PostOrders(TestCase):
         #  should not be in request
         factory = APIRequestFactory()
         test_files_dir = str(BASE_DIR) + '/YandexSweets/tests/test_files/orders_test_data'
-        for file in os.listdir(test_files_dir):
+        files = os.listdir(test_files_dir)
+        files.sort()
+        for file in files:
             orders_data = json.loads(open(test_files_dir + '/' + file, mode='r').read())
             # orders_data['input']['data'] = [orders_data['input']['data']]
             # open(test_files_dir + '/' + file, mode='w').write(json.dumps(orders_data, indent=2))
@@ -25,8 +27,8 @@ class PostOrders(TestCase):
                 print(file)
             request = factory.post('/orders', req_body, format='json')
             response = OrdersView.as_view()(request)
-            res_body = json.loads(response.data)
-            print(json.dumps(res_body, indent=2))
+            res_body = response.data
+            print(response.status_code, json.dumps(res_body, indent=2))
             if 'validation_error' in res_body.keys():
                 res_body = res_body['validation_error']['orders']
                 for order in res_body:

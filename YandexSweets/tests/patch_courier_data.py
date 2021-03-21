@@ -16,4 +16,4 @@ class PatchCourierData(TestCase):
         }
         request = f.patch('/couriers', data=data, format='json')
         response = CouriersView.as_view()(request, 10)
-        print(response.data)
+        print(response.status_code, response.data)

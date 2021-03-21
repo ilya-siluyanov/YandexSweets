@@ -13,4 +13,4 @@ class GetCouriers(TestCase):
         for courier in Courier.objects.all():
             request = f.get('/couriers')
             response = CouriersView.as_view()(request, courier.courier_id)
-            print(response.data)
+            print(response.status_code, response.data)

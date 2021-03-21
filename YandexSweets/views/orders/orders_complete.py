@@ -24,6 +24,15 @@ class OrdersCompleteView(APIView):
             if order.completed_time is None:
                 order.set_completed(dt.strptime(req_data.complete_time, '%Y-%m-%dT%H:%M:%S.%fZ'))
             order.save()
-        except (ValidationError, Order.DoesNotExist, Courier.DoesNotExist, Exception) as e:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        return Response(data=json.dumps({'order_id': order.order_id}), status=status.HTTP_200_OK)
+        except ValidationError as e:
+            return Response(data=e.json(), status=status.HTTP_400_BAD_REQUEST)
+        except Courier.DoesNotExist:
+            return Response(data={'description': 'There is no such a courier with id={}'.format(req_data.courier_id)},
+                            status=status.HTTP_400_BAD_REQUEST)
+        except Order.DoesNotExist:
+            return Response(data={
+                'description': 'The courier with id={} does not have an order with id={}'.format(req_data.courier_id,
+                                                                                                 req_data.order_id)},
+                status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(data={'order_id': order.order_id}, status=status.HTTP_200_OK)

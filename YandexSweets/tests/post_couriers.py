@@ -15,7 +15,9 @@ class PostCouriers(TestCase):
         f = APIRequestFactory()
         test_files_dir = str(BASE_DIR) + '/YandexSweets/tests/test_files/couriers_test_data'
         # for file in os.listdir(test_files_dir):
-        for file in os.listdir(test_files_dir):
+        files = os.listdir(test_files_dir)
+        files.sort()
+        for file in files:
             couriers_data = json.loads(open(test_files_dir + '/' + file, mode='r').read())
             req_body = couriers_data['input']
             expect = couriers_data['expect']['fields_with_errors']
@@ -23,8 +25,8 @@ class PostCouriers(TestCase):
                 print(file)
             request = f.post('/couriers', req_body, format='json')
             response = CouriersView.as_view()(request)
-            res_body = json.loads(response.data)
-            print(json.dumps(res_body, indent=2))
+            res_body = response.data
+            print(response.status_code, json.dumps(res_body, indent=2))
             if 'validation_error' in res_body.keys():
                 res_body = res_body['validation_error']['couriers']
                 for courier in res_body:

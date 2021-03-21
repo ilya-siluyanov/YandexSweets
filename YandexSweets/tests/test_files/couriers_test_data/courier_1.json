@@ -5,7 +5,7 @@
         "courier_id": 1,
         "courier_type": "foot",
         "regions": [
-          1
+          3
         ],
         "working_hours": [
           "21:19-22:22"

@@ -20,14 +20,17 @@ class OrdersAssign(TestCase):
         PostCouriers().test_register_new_couriers()
         PostOrders().test_register_new_orders()
         f = APIRequestFactory()
-        test_dir = str(BASE_DIR) + '/' + 'YandexSweets/tests/test_files/orders_assign_data'
-        for file in os.listdir(test_dir):
-            input = json.loads(open(test_dir + '/' + file, mode='r').read())
+        test_files_dir = str(BASE_DIR) + '/' + 'YandexSweets/tests/test_files/orders_assign_data'
+        files = os.listdir(test_files_dir)
+        files.sort()
+        for file in files:
+            input = json.loads(open(test_files_dir + '/' + file, mode='r').read())
             req_body = input['input']
             expect_orders = input['expect']['orders']
             request = f.post('/orders/assign', data=req_body, format='json')
             response = OrdersAssignView.as_view()(request)
-            response = json.loads(response.data)
+            print(response.status_code, end=" ")
+            response = response.data
             print(json.dumps(response, indent=2))
             c_orders = Courier.objects.get(pk=req_body['courier_id'])
             c_orders = c_orders.order_set.all()
