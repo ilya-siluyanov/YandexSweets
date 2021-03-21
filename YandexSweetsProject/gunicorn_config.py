@@ -1,5 +1,5 @@
 command = '/home/entrant/YandexSweets/yandex_env/bin/gunicorn'
-pythonpath = '/home/entrant/YandexSweets'
+pythonpath = '/home/entrant/YandexSweets/YandexSweetsProject'
 bind = '127.0.0.1:8001'
 workers = 9
 user = 'entrant'
