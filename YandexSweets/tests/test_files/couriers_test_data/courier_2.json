@@ -5,16 +5,15 @@
         "courier_id": 2,
         "courier_type": "bike",
         "regions": [
-          1,2
+          2
         ],
         "working_hours": [
-          "10:00-12:00"
+          "12:00-18:00"
         ]
       }
     ]
   },
   "expect": {
-    "fields_with_errors": [
-    ]
+    "fields_with_errors": []
   }
 }

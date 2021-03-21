@@ -23,17 +23,15 @@ class OrdersView(APIView):
             dict_order_id = {'id': order_id}
             order_ids.append(dict_order_id)
             try:
-                existing_order = Order.objects.get(pk=order_id)
-                serializer = OrderSerializer(existing_order, data=existing_order.__dict__)
+                Order.objects.get(pk=order_id)
             except Order.DoesNotExist:
                 serializer = OrderSerializer(data=order)
-
-            if serializer.is_valid():
-                serializer.save()
-            else:
-                for error in serializer.errors.items():
-                    dict_order_id[error[0]] = str(error[1][0])
-                invalid_order_ids.append(dict_order_id)
+                if serializer.is_valid():
+                    serializer.save()
+                else:
+                    for error in serializer.errors.items():
+                        dict_order_id[error[0]] = str(error[1][0])
+                    invalid_order_ids.append(dict_order_id)
 
         if len(invalid_order_ids) > 0:
             response_body = {

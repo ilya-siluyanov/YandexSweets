@@ -2,17 +2,18 @@
   "input": {
     "data": [
       {
-        "order_id": 12,
-        "weight": 45,
-        "region": 2,
+        "order_id": 2,
+        "weight": 0.001,
+        "region": 1,
         "delivery_hours": [
-          "18:00-21:30"
+          "09:00-09:01"
         ]
       }
     ]
   },
   "expect": {
     "fields_with_errors": [
+      "weight"
     ]
   }
 }

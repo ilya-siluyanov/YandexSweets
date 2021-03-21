@@ -5,16 +5,19 @@
         "courier_id": 3,
         "courier_type": "car",
         "regions": [
-          1
+          1,
+          2,
+          3
         ],
         "working_hours": [
-          "15:18-21:00"
+          "09:00-12:00",
+          "13:00-20:00",
+          "21:00-23:59"
         ]
       }
     ]
   },
   "expect": {
-    "fields_with_errors": [
-    ]
+    "fields_with_errors": []
   }
 }

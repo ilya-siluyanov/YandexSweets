@@ -2,22 +2,20 @@
   "input": {
     "data": [
       {
-        "courier_id": 9,
-        "courier_type": "foot",
+        "courier_id": 18,
+        "courier_type": "bike",
         "regions": [
           1,
-          2,
-          3
+          2
         ],
         "working_hours": [
-          "0:0-2:2"
+          "10:00-12:00"
         ]
       }
     ]
   },
   "expect": {
     "fields_with_errors": [
-      "working_hours"
     ]
   }
 }

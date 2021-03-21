@@ -72,19 +72,15 @@ class CouriersView(APIView):
             courier_ids.append(dict_courier_id)
 
             try:
-                existing_courier = Courier.objects.get(pk=courier_id)
-                serializer = CourierSerializer(existing_courier, data=existing_courier.__dict__)
+                Courier.objects.get(pk=courier_id)
             except Courier.DoesNotExist:
                 serializer = CourierSerializer(data=courier)
-            except Exception:
-                serializer = CourierSerializer(data=courier)
-
-            if serializer.is_valid():
-                serializer.save()
-            else:
-                for error in serializer.errors.items():
-                    dict_courier_id[error[0]] = str(error[1][0])
-                invalid_courier_ids.append(dict_courier_id)
+                if serializer.is_valid():
+                    serializer.save()
+                else:
+                    for error in serializer.errors.items():
+                        dict_courier_id[error[0]] = str(error[1][0])
+                    invalid_courier_ids.append(dict_courier_id)
 
         if len(invalid_courier_ids) > 0:
             validation_error_object = {

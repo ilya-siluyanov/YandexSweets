@@ -3,19 +3,20 @@
     "data": [
       {
         "courier_id": 5,
-        "courier_type": "car",
+        "courier_typ": "foot",
         "regions": [
-          "1"
+          3
         ],
         "working_hours": [
-          "00:00-23:5"
+          "18:00-22:00"
         ]
       }
     ]
   },
   "expect": {
     "fields_with_errors": [
-      "working_hours"
+      "courier_type",
+      "courier_typ"
     ]
   }
 }

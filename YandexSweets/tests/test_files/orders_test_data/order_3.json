@@ -3,21 +3,17 @@
     "data": [
       {
         "order_id": 3,
-        "weight": 0.001,
-        "region": [
-          1,
-          2
-        ],
+        "weight": 1.5,
+        "region": 3,
         "delivery_hours": [
-          "09:00-09:01"
+          "18:00-21:30",
+          "22:00-23:00"
         ]
       }
     ]
   },
   "expect": {
     "fields_with_errors": [
-      "weight",
-      "region"
     ]
   }
 }

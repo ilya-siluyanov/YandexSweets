@@ -12,5 +12,5 @@ class GetCouriers(TestCase):
         f = APIRequestFactory()
         for courier in Courier.objects.all():
             request = f.get('/couriers')
-            response = CouriersView.as_view()(request,courier.courier_id)
+            response = CouriersView.as_view()(request, courier.courier_id)
             print(response.data)

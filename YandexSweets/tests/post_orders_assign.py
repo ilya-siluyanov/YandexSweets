@@ -5,8 +5,8 @@ from django.test import TestCase
 from rest_framework.test import APIRequestFactory
 
 from YandexSweets.models import Courier
-from YandexSweets.tests.post_orders import PostOrders
 from YandexSweets.tests.post_couriers import PostCouriers
+from YandexSweets.tests.post_orders import PostOrders
 from YandexSweets.views import OrdersAssignView
 from YandexSweetsProject.settings import BASE_DIR
 
@@ -16,6 +16,7 @@ class OrdersAssign(TestCase):
     def test_orders_assign(self):
         # TODO : if there is problem with field existing in model, there will be no messages about fields which
         #  should not be in request
+
         PostCouriers().test_register_new_couriers()
         PostOrders().test_register_new_orders()
         f = APIRequestFactory()

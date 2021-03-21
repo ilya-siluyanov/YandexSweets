@@ -1,4 +1,5 @@
 from pathlib import Path
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -11,7 +12,7 @@ SECRET_KEY = 'a8ln74&in)45$1b1slkpm3dsz@=ivgh2l-6t9m^%d$8ld@0d2e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 # Application definition
 
