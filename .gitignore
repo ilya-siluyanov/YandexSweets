@@ -2,3 +2,4 @@ openapi.yaml
 .idea
 YandexSweets/migrations/
 /yandex_env/
+__pycache__
