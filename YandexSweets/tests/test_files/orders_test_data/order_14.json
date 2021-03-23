@@ -2,7 +2,7 @@
   "input": {
     "data": [
       {
-        "order_id": 1,
+        "order_id": -1,
         "weight": 16,
         "regions": 2,
         "delivery_hours": [
@@ -13,6 +13,7 @@
   },
   "expect": {
     "fields_with_errors": [
+      "order_id",
       "region",
       "regions",
       "description"

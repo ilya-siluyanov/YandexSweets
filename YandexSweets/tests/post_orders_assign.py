@@ -30,11 +30,14 @@ class OrdersAssign(TestCase):
             request = f.post('/orders/assign', data=req_body, format='json')
             response = OrdersAssignView.as_view()(request)
             print(response.status_code, end=" ")
+            status_code = response.status_code
             response = response.data
             print(json.dumps(response, indent=2))
-            c_orders = Courier.objects.get(pk=req_body['courier_id'])
-            c_orders = c_orders.order_set.all()
-            orders = [c_order.order_id for c_order in c_orders]
+            if status_code == 200:
+                c_orders = response['orders']
+            else:
+                c_orders = {}
+            orders = [c_order['id'] for c_order in c_orders]
             orders.sort()
             expect_orders.sort()
             assert expect_orders == orders, 'Wrong answer,expect = {},found = {},file = {}'.format(expect_orders,

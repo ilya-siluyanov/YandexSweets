@@ -22,8 +22,7 @@ class CouriersView(APIView):
         try:
             courier = Courier.objects.get(pk=c_id)
         except Courier.DoesNotExist:
-            return Response(data={'description': 'There is no such a courier with id={}'.format(c_id)},
-                            status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_404_NOT_FOUND)
         completed_orders = courier.order_set \
             .filter(courier_id=courier.courier_id) \
             .filter(completed_time__isnull=False)
@@ -111,11 +110,12 @@ class CouriersView(APIView):
             serializer = CourierSerializer(courier, data=req_body, partial=True)
             if serializer.is_valid():
                 serializer.save()
-        except Courier.DoesNotExist:
-            return Response(data={"description": "There is no such a courier with id={}".format(c_id)},
-                            status=status.HTTP_404_NOT_FOUND)
+        except Courier.DoesNotExist as e:
+            print(e)
+            return Response(status=status.HTTP_404_NOT_FOUND)
         except ValidationError as e:
-            return Response(data=e.args, status=status.HTTP_400_BAD_REQUEST)
+            print(e.args)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         for order in courier.order_set.all():
             if not courier.is_inside_working_time(order):
                 courier.make_order_free(order)

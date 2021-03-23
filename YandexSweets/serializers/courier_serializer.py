@@ -14,7 +14,16 @@ class CourierSerializer(serializers.Serializer):
     regions = serializers.ListField(child=serializers.IntegerField())
     working_hours = serializers.ListField(child=serializers.CharField(max_length=12))
 
+    def validate_courier_id(self, value):
+        if type(value) is not int:
+            raise ValidationError("Id must be integer")
+        if value <= 0:
+            raise ValidationError("Id must be positive integer")
+        return value
+
     def validate_courier_type(self, value):
+        if value is None:
+            raise ValidationError('Value is absent')
         if value not in Courier.COURIER_MAX_WEIGHT.keys():
             message = 'Courier type must be one of these types: [{types}]. Input regions : {input_c_type}' \
                 .format(types=', '.join(Courier.COURIER_MAX_WEIGHT.keys()), input_c_type=value)
@@ -35,6 +44,8 @@ class CourierSerializer(serializers.Serializer):
         return regions
 
     def validate_working_hours(self, working_hours):
+        if working_hours is None:
+            raise ValidationError('Value is absent')
         if type(working_hours) is not list:
             raise ValidationError('Working hours must be enumerated in list data structure')
         if len(working_hours) == 0:

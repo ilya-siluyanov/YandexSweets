@@ -22,7 +22,8 @@ class OrdersAssignView(APIView):
             req_body = OrdersAssign.parse_raw(req_body)
             courier = Courier.objects.get(pk=req_body.courier_id)
         except (Courier.DoesNotExist, ValidationError) as e:
-            return Response(data=e.args, status=status.HTTP_400_BAD_REQUEST)
+            print(e.args)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         orders = Order.objects.filter(courier__courier_id__isnull=True)
         orders = orders.filter(completed_time__isnull=True)
         orders = orders.filter(region__in=courier.regions)

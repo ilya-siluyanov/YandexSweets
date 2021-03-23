@@ -20,11 +20,18 @@ class OrderSerializer(serializers.Serializer):
     completed_time = serializers.DateTimeField(required=False)
     delivery_type = serializers.CharField(max_length=4, required=False)
 
+    def validate_order_id(self, value):
+        if type(value) is not int:
+            raise ValidationError('Id must be integer')
+        if value <= 0:
+            raise ValidationError('Id must be positive integer')
+        return value
+
     def validate_weight(self, value):
         if value is None:
             raise ValidationError('Value is absent')
 
-        if type(value) is float:
+        if type(value) in (float, int):
             if value < 0.01 or value > 50:
                 raise ValidationError('Value is out of bounds [0.01;50] : {}'.format(value))
             return value
@@ -41,6 +48,8 @@ class OrderSerializer(serializers.Serializer):
         return value
 
     def validate_delivery_hours(self, value):
+        if value is None:
+            raise ValidationError('Value is absent')
         if type(value) is not list:
             raise ValidationError('Delivery hours must be enumerated in list data structure')
         if len(value) == 0:
@@ -58,6 +67,8 @@ class OrderSerializer(serializers.Serializer):
         return value
 
     def validate_assign_to_courier_time(self, value):
+        if value is None:
+            raise ValidationError('Value is absent')
         if type(value) is not list:
             raise ValidationError('Time of order assignment must be exactly one timestamp')
         try:
@@ -76,6 +87,8 @@ class OrderSerializer(serializers.Serializer):
             raise ValidationError('There is no such a courier with id {c_id}'.format(c_id=value.courier_id))
 
     def validate_completed_time(self, value):
+        if value is None:
+            raise ValidationError('Value is absent')
         try:
             self.validate_delivery_hours(value)
             return value
