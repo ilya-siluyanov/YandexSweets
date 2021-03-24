@@ -15,8 +15,9 @@
     <li>
         configure start_gunicorn.sh (there are detailed explanation of each line of code)
     </li>
+    <li>Mark start_gunicorn.sh as executable  (chmod +x start_gunicorn.sh)</li>
     <li>
-        configure Nginx 
+        configure Nginx
     </li>
 </ol>
 

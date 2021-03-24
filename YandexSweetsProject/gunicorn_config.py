@@ -6,3 +6,5 @@ user = 'entrant'  # user which starts gunicorn
 limit_request_fields = 32000
 limit_request_field_size = 0
 raw_env = 'DJANGO_SETTINGS_MODULE=YandexSweetsProject.production_settings'  # envionment variable to settings.py
+accesslog = '/var/log/gunicorn/access_log.txt'
+errorlog = '/var/log/gunicorn/error_log.txt'
