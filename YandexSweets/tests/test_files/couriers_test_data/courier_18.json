@@ -8,7 +8,7 @@
           1,
           2
         ],
-        "working_hours": [
+        "workinghours": [
           "10:00-12:00"
         ]
       }
@@ -16,6 +16,8 @@
   },
   "expect": {
     "fields_with_errors": [
+      "working_hours",
+      "workinghours"
     ]
   }
 }

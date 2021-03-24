@@ -18,13 +18,13 @@ class PostOrders(TestCase):
         files = os.listdir(test_files_dir)
         files.sort()
         for file in files:
+            print(file)
+            print()
             orders_data = json.loads(open(test_files_dir + '/' + file, mode='r').read())
             # orders_data['input']['data'] = [orders_data['input']['data']]
             # open(test_files_dir + '/' + file, mode='w').write(json.dumps(orders_data, indent=2))
             req_body = orders_data['input']
             expect = orders_data['expect']['fields_with_errors']
-            if len(expect) == 0:
-                print(file)
             request = factory.post('/orders', req_body, format='json')
             response = OrdersView.as_view()(request)
             res_body = response.data

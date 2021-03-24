@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory
@@ -19,14 +20,17 @@ class PostOrdersComplete(TestCase):
 
         f = APIRequestFactory()
         test_files_dir = str(BASE_DIR) + '/YandexSweets/tests/test_files/orders_complete_data'
-        for file in os.listdir(test_files_dir):
+        for file in sorted(os.listdir(test_files_dir)):
+            print(file)
+            print()
             input_data = json.loads(open(test_files_dir + '/' + file, mode='r').read())
             req_body = input_data['input']
             expect = input_data['expect']
             request = f.post('orders/complete', data=req_body, format='json')
             response = OrdersCompleteView.as_view()(request)
             status_code = response.status_code
-            print(status_code, json.dumps(response.data, indent=2))
+            print(status_code, json.dumps(response.data, indent=2), flush=True)
+
             assert expect['status_code'] == status_code, \
                 'Expected the same codes, got {} and {}, file={}'.format(expect['status_code'], status_code,
                                                                          file)

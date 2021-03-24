@@ -24,6 +24,8 @@ class OrdersAssign(TestCase):
         files = os.listdir(test_files_dir)
         files.sort()
         for file in files:
+            print(file)
+            print()
             input = json.loads(open(test_files_dir + '/' + file, mode='r').read())
             req_body = input['input']
             expect_orders = input['expect']['orders']

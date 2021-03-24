@@ -1,4 +1,4 @@
-from .get_couriers_data import GetCouriers
+from .get_couriers_data import GetCouriersData
 # from .patch_courier_data import PatchCourierData
 # from .post_couriers import PostCouriers
 # from .post_orders import PostOrders

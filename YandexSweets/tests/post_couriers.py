@@ -18,11 +18,11 @@ class PostCouriers(TestCase):
         files = os.listdir(test_files_dir)
         files.sort()
         for file in files:
+            print(file)
+            print()
             couriers_data = json.loads(open(test_files_dir + '/' + file, mode='r').read())
             req_body = couriers_data['input']
             expect = couriers_data['expect']['fields_with_errors']
-            if len(expect) == 0:
-                print(file)
             request = f.post('/couriers', req_body, format='json')
             response = CouriersView.as_view()(request)
             res_body = response.data

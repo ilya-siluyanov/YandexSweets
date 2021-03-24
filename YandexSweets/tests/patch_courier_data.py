@@ -23,8 +23,8 @@ class PatchCourierData(TestCase):
             status_code = input['expect']
             request = f.patch('/couriers', data=data, format='json')
             response = CouriersView.as_view()(request, courier_id)
+
             print(response.status_code, response.data)
             assert response.status_code == status_code, 'Error: exp {},got {},file={}'.format(status_code,
                                                                                               response.status_code,
                                                                                               file)
-            print()
