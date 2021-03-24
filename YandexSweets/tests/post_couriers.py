@@ -39,3 +39,4 @@ class PostCouriers(TestCase):
                                                                                                          file)
             else:
                 assert len(expect) == 0, 'There should not be any errors, file={}'.format(file)
+            print()

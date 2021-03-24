@@ -41,3 +41,4 @@ class PostOrders(TestCase):
                                                                                                          file)
             else:
                 assert len(expect) == 0, 'There should be not any errors, file={}'.format(file)
+            print()

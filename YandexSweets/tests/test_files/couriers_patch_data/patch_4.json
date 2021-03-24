@@ -1,0 +1,7 @@
+{
+  "id": 1,
+  "data": {
+    "courier_type": "food"
+  },
+  "expect": 400
+}

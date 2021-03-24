@@ -29,10 +29,9 @@ class OrdersAssign(TestCase):
             expect_orders = input['expect']['orders']
             request = f.post('/orders/assign', data=req_body, format='json')
             response = OrdersAssignView.as_view()(request)
-            print(response.status_code, end=" ")
             status_code = response.status_code
             response = response.data
-            print(json.dumps(response, indent=2))
+            print(status_code, json.dumps(response, indent=2))
             if status_code == 200:
                 c_orders = response['orders']
             else:
@@ -42,3 +41,4 @@ class OrdersAssign(TestCase):
             expect_orders.sort()
             assert expect_orders == orders, 'Wrong answer,expect = {},found = {},file = {}'.format(expect_orders,
                                                                                                    orders, file)
+            print()

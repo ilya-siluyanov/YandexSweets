@@ -1,8 +1,7 @@
 {
   "input": {
     "courier_id": 2,
-    "order_id": 1,
-    "complete_time": "2021-03-23T21:27:01.42Z"
+    "order_id": 1
   },
   "expect": {
     "status_code": 400

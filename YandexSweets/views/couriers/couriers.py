@@ -110,11 +110,13 @@ class CouriersView(APIView):
             serializer = CourierSerializer(courier, data=req_body, partial=True)
             if serializer.is_valid():
                 serializer.save()
+            else:
+                raise ValidationError(serializer.errors)
         except Courier.DoesNotExist as e:
-            print(e)
+            print(json.dumps(e, indent=2))
             return Response(status=status.HTTP_404_NOT_FOUND)
         except ValidationError as e:
-            print(e.args)
+            print(json.dumps(e.args, indent=2))
             return Response(status=status.HTTP_400_BAD_REQUEST)
         for order in courier.order_set.all():
             if not courier.is_inside_working_time(order):

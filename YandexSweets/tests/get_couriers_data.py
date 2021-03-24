@@ -14,3 +14,4 @@ class GetCouriers(TestCase):
             request = f.get('/couriers')
             response = CouriersView.as_view()(request, courier.courier_id)
             print(response.status_code, response.data)
+            assert response.status_code == 200

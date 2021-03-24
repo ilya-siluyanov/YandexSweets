@@ -1,0 +1,7 @@
+{
+  "id": 1,
+  "data": {
+    "curier_type": "foot"
+  },
+  "expect": 400
+}

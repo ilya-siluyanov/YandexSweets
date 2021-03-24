@@ -63,7 +63,10 @@ class CourierSerializer(serializers.Serializer):
         return working_hours
 
     def update(self, instance: Courier, validated_data: dict):
+
         for key in validated_data.keys():
+            if key == 'courier_id':
+                raise ValidationError('Cannot change courier id')
             instance[key] = validated_data[key]
         instance.save()
         return instance
