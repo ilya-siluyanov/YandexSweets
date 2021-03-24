@@ -1,4 +1,4 @@
-command = '/home/entrant/YandexSweets/yandex_env/bin/gunicorn'  # absolute path to virtual environment
+command = '/home/entrant/YandexSweets/yandex_env/bin/gunicorn'  # absolute path to gunicorn lib
 pythonpath = '/home/entrant/YandexSweets/YandexSweetsProject'  # absolute path to project application folder (with settings.py, etc.)
 bind = '127.0.0.1:8001'  # host and port where gunicorn will be installed
 workers = 9  # workers = number_of_cores*2+1

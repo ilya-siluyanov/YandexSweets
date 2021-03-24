@@ -15,10 +15,32 @@
     <li>
         configure start_gunicorn.sh (there are detailed explanation of each line of code)
     </li>
-    <li>Mark start_gunicorn.sh as executable  (chmod +x start_gunicorn.sh)</li>
     <li>
-        configure Nginx
+        Check whether start_gunicorn.sh is marked as executable  (or mark it by chmod +x start_gunicorn.sh)
     </li>
+    <li>
+        configure Nginx or use the template in config directory, copy the content of default to /etc/nginx/sites-enabled/default
+    </li>
+    <li>
+        copy gunicorn.service from config directory to /etc/systemd/system directory
+    </li>
+    <li>
+        for postgres user set password postgres
+    </li>
+    <li>
+        create database yandex_database
+    </li>
+</ol>
+<h2>How to launch service?</h2>
+Actually, if everything is okay, then it should start on system startup 
+<ol>
+    <li>
+        restart (or start) gunicorn.service
+    </li>
+    <li>
+        restart (or start) nginx.service
+    </li>
+
 </ol>
 
 
@@ -29,6 +51,7 @@
 
 
 <h2>Dependencies</h2>
+Nginx, postgresql must be installed
 <p>
 aiohttp==3.4.4
 asgiref==3.3.1
