@@ -18,7 +18,7 @@ class CouriersView(APIView):
     }
 
     @staticmethod
-    def get(request: Request, c_id):
+    def get(request: Request, c_id: int) -> Response:
         try:
             courier = Courier.objects.get(pk=c_id)
         except Courier.DoesNotExist:
@@ -57,10 +57,8 @@ class CouriersView(APIView):
         return Response(data=res_body, status=status.HTTP_200_OK)
 
     @staticmethod
-    def post(request: Request):
+    def post(request: Request) -> Response:
         req_body = request.data
-        if request.content_type != 'application/json':
-            req_body = json.loads(request.data)
         courier_list = req_body['data']
 
         courier_ids = []
@@ -101,10 +99,8 @@ class CouriersView(APIView):
         return Response(data=response_body, status=response_status)
 
     @staticmethod
-    def patch(request, c_id):
+    def patch(request: Request, c_id: int) -> Response:
         req_body = request.data
-        if request.content_type != 'application/json':
-            req_body = json.loads(request.data)
         try:
             courier = Courier.objects.get(pk=c_id)
             serializer = CourierSerializer(courier, data=req_body, partial=True)

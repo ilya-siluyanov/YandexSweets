@@ -3,6 +3,7 @@ from datetime import datetime as dt
 
 from pydantic import ValidationError
 from rest_framework import status
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -13,12 +14,10 @@ from YandexSweets.models.pydantic import OrderComplete
 
 class OrdersCompleteView(APIView):
     @staticmethod
-    def post(request):
+    def post(request: Request) -> Response:
         req_body = request.data
-        if request.content_type == 'application/json':
-            req_body = json.dumps(request.data)
         try:
-            req_data = OrderComplete.parse_raw(req_body)
+            req_data = OrderComplete.parse_obj(req_body)
             courier = Courier.objects.get(pk=req_data.courier_id)
             order = courier.order_set.get(pk=req_data.order_id)
             if order.completed_time is None:

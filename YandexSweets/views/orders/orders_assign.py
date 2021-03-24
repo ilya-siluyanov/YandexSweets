@@ -3,6 +3,7 @@ from datetime import datetime as dt
 
 from pydantic import ValidationError
 from rest_framework import status
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -14,12 +15,10 @@ from YandexSweets.time_utils import inside_bounds, get_formatted_current_time
 
 class OrdersAssignView(APIView):
     @staticmethod
-    def post(request):
+    def post(request: Request) -> Response:
         req_body = request.data
-        if request.content_type == 'application/json':
-            req_body = json.dumps(request.data)
         try:
-            req_body = OrdersAssign.parse_raw(req_body)
+            req_body = OrdersAssign.parse_obj(req_body)
             courier = Courier.objects.get(pk=req_body.courier_id)
         except (Courier.DoesNotExist, ValidationError) as e:
             print(e.args)

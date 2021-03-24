@@ -1,6 +1,7 @@
 import json
 
 from rest_framework import status
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -11,7 +12,7 @@ from YandexSweets.serializers.order_serializer import OrderSerializer
 class OrdersView(APIView):
 
     @staticmethod
-    def post(request):
+    def post(request: Request) -> Response:
         req_body = request.data
         if request.content_type != 'application/json':
             req_body = json.loads(request.data)
