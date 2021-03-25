@@ -1,6 +1,5 @@
 import json
-from datetime import datetime as dt
-
+from django.utils import timezone as dt
 from pydantic import ValidationError
 from rest_framework import status
 from rest_framework.request import Request
