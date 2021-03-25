@@ -33,6 +33,8 @@ class Courier(models.Model):
         if order not in self.order_set.all():
             return
         order.courier_id = None
+        order.assign_to_courier_time = None
+        order.delivery_type = None
         order.save()
 
     def __getitem__(self, key):

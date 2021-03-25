@@ -43,9 +43,26 @@ orders = {
     ]
 }
 
+headers = {
+    'Content-Type': 'application/json'
+}
+
 response = req.post('http://localhost:8000/couriers', data=json.dumps(couriers),
-                    headers={'Content-Type': 'application/json'})
+                    headers=headers)
 print(response.text)
 response = req.post('http://localhost:8000/orders', data=json.dumps(orders),
-                    headers={'Content-Type': 'application/json'})
+                    headers=headers)
+print(response.text)
+
+orders_assign = {
+    "courier_id": 1
+}
+response = req.post('http://localhost:8000/orders/assign', data=json.dumps(orders_assign), headers=headers)
+print(response.text)
+
+orders_patch = {
+    "courier_type": "foot"
+}
+
+response = req.patch('http://localhost:8000/couriers/1', data=json.dumps(orders_patch), headers=headers)
 print(response.text)
