@@ -34,7 +34,6 @@ class OrdersAssignView(APIView):
             if order.is_inside_working_time(courier):
                 order.courier = courier
                 order.assign_to_courier_time = current_time
-                order.delivery_type = courier.courier_type
                 order.save()
                 response_body['orders'].append({'id': order.order_id})
 
