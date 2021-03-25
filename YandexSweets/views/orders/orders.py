@@ -25,7 +25,7 @@ class OrdersView(APIView):
             order_ids.append(dict_order_id)
             try:
                 Order.objects.get(pk=order_id)
-                dict_order_id['description'] = 'There is an existing courier with such id'
+                dict_order_id['description'] = 'There is an existing order with such id'
                 invalid_order_ids.append(dict_order_id)
             except Order.DoesNotExist:
                 serializer = OrderSerializer(data=order)
