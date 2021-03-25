@@ -115,7 +115,7 @@ class CouriersView(APIView):
             print(json.dumps(e.args, indent=2))
             return Response(status=status.HTTP_400_BAD_REQUEST)
         for order in courier.order_set.all():
-            if not courier.is_inside_working_time(order):
+            if not order.is_inside_working_time(courier):
                 courier.make_order_free(order)
 
         for order in courier.order_set.all():

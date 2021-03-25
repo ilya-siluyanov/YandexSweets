@@ -1,16 +1,23 @@
 from datetime import datetime as dt
 
+from typing import List, Tuple
 
-def seconds_from_day_start(time: str):
+
+def seconds_from_day_start(time: str) -> int:
     hours, minutes = [int(i) for i in time.split(':')]
     return hours * 3600 + minutes * 60
 
 
-def get_start_end_period(time: str):
+def get_start_end_period(time: str) -> List[str]:
     return time.split('-')
 
 
-def is_correct_hours(hours: str):
+def parse_period(period: str) -> Tuple[int, int]:
+    start, end = get_start_end_period(period)
+    return seconds_from_day_start(start), seconds_from_day_start(end)
+
+
+def is_correct_hours(hours: str) -> bool:
     try:
         h, m = hours.split(':')
         return (len(h) == 2 and len(m) == 2) and (0 <= int(h) <= 23 and 0 <= int(m) <= 59)
@@ -18,18 +25,15 @@ def is_correct_hours(hours: str):
         return False
 
 
-def inside_bounds(order_time_bounds: str, courier_time_bounds: str):
-    order_time_bounds = get_start_end_period(order_time_bounds)
-    courier_time_bounds = get_start_end_period(courier_time_bounds)
-    order_time_bounds = [seconds_from_day_start(order_time_bounds[0]), seconds_from_day_start(order_time_bounds[1])]
-    lower_bound, upper_bound = seconds_from_day_start(courier_time_bounds[0]), seconds_from_day_start(
-        courier_time_bounds[1])
+def inside_bounds(order_time_bounds: str, courier_time_bounds: str) -> bool:
+    order_time_bounds = parse_period(order_time_bounds)
+    lower_bound, upper_bound = parse_period(courier_time_bounds)
     first_case = lower_bound <= order_time_bounds[0] <= upper_bound
     second_case = lower_bound <= order_time_bounds[1] <= upper_bound
     return first_case or second_case
 
 
-def get_formatted_current_time():
+def get_formatted_current_time() -> str:
     res = dt.now().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
     ind = -1
     while res[ind] != '.':
@@ -37,7 +41,7 @@ def get_formatted_current_time():
     return res[:ind + 3] + 'Z'
 
 
-def parse_time(seconds: int):
+def parse_time(seconds: int) -> str:
     hours = str(seconds // 3600)
     seconds = seconds % 3600
     minutes = str(seconds // 60)

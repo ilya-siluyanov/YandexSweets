@@ -2,8 +2,6 @@ from django.contrib.postgres import fields as pg_fields
 from django.db import models
 from django.db.models import fields
 
-from YandexSweets.time_utils import inside_bounds
-
 
 class Courier(models.Model):
     courier_id = fields.IntegerField(primary_key=True)
@@ -36,13 +34,6 @@ class Courier(models.Model):
             return
         order.courier_id = None
         order.save()
-
-    def is_inside_working_time(self, order):
-        for working_period in self.working_hours:
-            for delivery_period in order.delivery_hours:
-                if inside_bounds(delivery_period, working_period):
-                    return True
-        return False
 
     def __getitem__(self, key):
         return getattr(self, key)

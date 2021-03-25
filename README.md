@@ -40,6 +40,8 @@ Actually, if everything is okay, then it should start on system startup
     <li>
         restart (or start) nginx.service
     </li>
+<h2>How to launch tests?</h2>
+<p>Inside of the YandexSweets package execute <code>python3 manage.py test</code></p>
 
 </ol>
 

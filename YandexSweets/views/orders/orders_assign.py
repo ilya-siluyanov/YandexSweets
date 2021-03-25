@@ -32,19 +32,12 @@ class OrdersAssignView(APIView):
             'orders': []
         }
         for order in orders:
-            for delivery_hour in order.delivery_hours:
-                found = False
-                for working_hour in courier.working_hours:
-                    if inside_bounds(delivery_hour, working_hour):
-                        order.courier = courier
-                        order.assign_to_courier_time = current_time
-                        order.delivery_type = courier.courier_type
-                        order.save()
-                        response_body['orders'].append({'id': order.order_id})
-                        found = True
-                        break
-                if found:
-                    break
+            if order.is_inside_working_time(courier):
+                order.courier = courier
+                order.assign_to_courier_time = current_time
+                order.delivery_type = courier.courier_type
+                order.save()
+                response_body['orders'].append({'id': order.order_id})
 
         courier.save()
         if len(response_body['orders']) > 0:
