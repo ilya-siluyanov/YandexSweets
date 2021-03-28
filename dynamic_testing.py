@@ -7,22 +7,9 @@ couriers = {
             "courier_id": 1,
             "courier_type": "car",
             "regions": [1],
-            "working_hours": ["12:00-13:00"]
+            "working_hours": ["10:00-11:00", "08:00-09:00", "12:00-13:00"]
 
-        },
-        {
-            "courier_id": 2,
-            "courier_type": "bike",
-            "regions": [2],
-            "working_hours": ["13:00-14:00"]
-        },
-        {
-            "courier_id": 3,
-            "courier_type": "car",
-            "regions": [1],
-            "working_hours": ["12:00-13:00"]
         }
-
     ]
 }
 
@@ -32,20 +19,26 @@ orders = {
             "order_id": 1,
             "weight": 8,
             "region": 1,
-            "delivery_hours": ["09:00-18:00"]
+            "delivery_hours": ["08:30-09:30"]
         },
         {
             "order_id": 2,
-            "weight": 12,
-            "region": 2,
-            "delivery_hours": ["13:20-14:00"]
+            "weight": 8,
+            "region": 1,
+            "delivery_hours": ["10:00-10:30"]
         },
         {
             "order_id": 3,
-            "weight": 25,
+            "weight": 8,
             "region": 1,
-            "delivery_hours": ["12:00-18:00"]
-        }
+            "delivery_hours": ["11:31-11:59", "11:00-11:30"]
+        },
+        {
+            "order_id": 4,
+            "weight": 8,
+            "region": 1,
+            "delivery_hours": ["11:59-13:00"]
+        },
     ]
 }
 

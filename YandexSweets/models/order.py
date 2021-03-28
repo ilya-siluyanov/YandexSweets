@@ -30,14 +30,23 @@ class Order(models.Model):
     def is_inside_working_time(self, courier: Courier):
         timeline = self.create_timeline(courier)
         h = 0
+        intersection_start = -1
         for timestamp in timeline:
             h += timestamp[1]
-            if h == 2:
-                return True
+            if h > 1 and timestamp[1] == 1:
+                intersection_start = timestamp[0]
+            if h == 1 and timestamp[1] == -1:
+                if timestamp[0] - intersection_start >= 1:
+                    return True
         return False
 
     def create_timeline(self, courier: Courier) -> List[Tuple[int, int]]:
+        def sorting_function(x):
+            return parse_period(x)[0]
+
         working_timeline = deque()
+        courier.working_hours.sort(key=sorting_function)
+        self.delivery_hours.sort(key=sorting_function)
         for working_period in courier.working_hours:
             start, end = parse_period(working_period)
             working_timeline.append((start, 1))
@@ -57,21 +66,23 @@ class Order(models.Model):
                 working_timeline.popleft()
             elif working_period[0] == delivery_period[0]:
                 if working_period[1] > delivery_period[1]:
-                    timeline.append(working_period)
-                    working_timeline.popleft()
-                elif working_period[1] < delivery_period[1]:
                     timeline.append(delivery_period)
                     delivery_timeline.popleft()
+                elif working_period[1] < delivery_period[1]:
+                    timeline.append(working_period)
+                    working_timeline.popleft()
                 else:
-                    if working_period[1] == 1:
-                        timeline.append(working_period)
-                        working_timeline.popleft()
-                    else:
-                        timeline.append(delivery_period)
-                        delivery_timeline.popleft()
+                    timeline.append(delivery_period)
+                    delivery_timeline.popleft()
             else:
                 timeline.append(delivery_period)
                 delivery_timeline.popleft()
+        while len(working_timeline) > 0:
+            timeline.append(working_timeline[0])
+            working_timeline.popleft()
+        while len(delivery_timeline) > 0:
+            timeline.append(delivery_timeline[0])
+            delivery_timeline.popleft()
         return timeline
 
     def __getitem__(self, item):
