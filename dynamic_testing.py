@@ -1,13 +1,18 @@
 import json
 import requests as req
 
+headers = {
+    'Content-Type': 'application/json'
+}
+base = 'http://localhost:8000/'
+
 couriers = {
     "data": [
         {
-            "courier_id": 2,
-            "courier_type": "car",
+            "courier_id": 1,
+            "courier_type": "foot",
             "regions": [1],
-            "working_hours": ["10:00-11:01", "08:00-09:00", "12:00-13:00"]
+            "working_hours": ["00:00-23:59"]
         }
     ]
 }
@@ -15,18 +20,27 @@ couriers = {
 orders = {
     "data": [
         {
-            "order_id": 5,
+            "order_id": 1,
+            "weight": 25,
+            "region": 1,
+            "delivery_hours": ["11:00-12:00"]
+        },
+        {
+            "order_id": 2,
+            "weight": 13,
+            "region": 1,
+            "delivery_hours": ["11:00-12:00"]
+        },
+        {
+            "order_id": 3,
             "weight": 8,
             "region": 1,
             "delivery_hours": ["11:00-12:00"]
         },
+
     ]
 }
 
-headers = {
-    'Content-Type': 'application/json'
-}
-base = 'http://localhost:8000/'
 response = req.post(base + 'couriers', data=json.dumps(couriers),
                     headers=headers)
 print(response.text)
@@ -34,43 +48,65 @@ response = req.post(base + 'orders', data=json.dumps(orders),
                     headers=headers)
 print(response.text)
 
-orders_assign = {
-    "courier_id": 2
-}
-response = req.post(base + 'orders/assign', data=json.dumps(orders_assign), headers=headers)
-print(response.text)
-# body = {
-#     "working_hours": ["10:00-11:01"]
-# }
-# response = req.patch(base + 'couriers/2', data=json.dumps(body), headers=headers)
-# print(response.text)
 body = {
-    "working_hours": ["09:00-09:01"]
+    "courier_id": 1
 }
 
-response = req.patch(base + 'couriers/2', data=json.dumps(body), headers=headers)
+response = req.post(base + 'orders/assign', data=json.dumps(body), headers=headers)
 print(response.text)
 
-orders_assign = {
-    "courier_id": 2
+body = {
+    "courier_type": "bike"
 }
-response = req.post(base + 'orders/assign', data=json.dumps(orders_assign), headers=headers)
+response = req.patch(base + 'couriers/1', data=json.dumps(body), headers=headers)
+print(response.text)
 
+body = {
+    "courier_id": 1
+}
+
+response = req.post(base + 'orders/assign', data=json.dumps(body), headers=headers)
 print(response.text)
 body = {
-    "courier_id": 2,
-    "order_id": 5,
-    "complete_time": "2021-03-29T12:06:01.42Z"
+    "courier_type": "car"
+}
+
+response = req.patch(base + 'couriers/1', data=json.dumps(body), headers=headers)
+print(response.text)
+
+body = {
+    "courier_id": 1
+}
+
+response = req.post(base + 'orders/assign', data=json.dumps(body), headers=headers)
+print(response.text)
+
+body = {
+    "courier_id": 1,
+    "order_id": 1,
+    "complete_time": "2021-03-29T13:08:01.42Z"
 }
 
 response = req.post(base + 'orders/complete', data=json.dumps(body), headers=headers)
 print(response.text)
 
 body = {
-    "courier_id": 2,
+    "courier_id": 1,
     "order_id": 2,
-    "complete_time": "2021-03-29T12:06:01.42Z"
+    "complete_time": "2021-03-29T13:08:01.42Z"
 }
 
 response = req.post(base + 'orders/complete', data=json.dumps(body), headers=headers)
+print(response.text)
+
+body = {
+    "courier_id": 1,
+    "order_id": 3,
+    "complete_time": "2021-03-29T13:08:01.42Z"
+}
+
+response = req.post(base + 'orders/complete', data=json.dumps(body), headers=headers)
+print(response.text)
+
+response = req.get(base + 'couriers/1')
 print(response.text)

@@ -114,15 +114,17 @@ class CouriersView(APIView):
         except ValidationError as e:
             print(json.dumps(e.args, indent=2))
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        for order in courier.order_set.all():
+
+        not_completed_orders = courier.order_set.filter(completed_time__isnull=True)
+        for order in not_completed_orders:
             if not order.is_inside_working_time(courier):
                 courier.make_order_free(order)
 
-        for order in courier.order_set.all():
+        for order in not_completed_orders:
             if order.weight > Courier.COURIER_MAX_WEIGHT[courier.courier_type]:
                 courier.make_order_free(order)
 
-        for order in courier.order_set.all():
+        for order in not_completed_orders:
             if order.region not in courier.regions:
                 courier.make_order_free(order)
 
