@@ -23,7 +23,6 @@ class OrdersCompleteView(APIView):
             order = courier.order_set.get(pk=req_data.order_id)
             if order.completed_time is None:
                 order.set_completed(dt.strptime(req_data.complete_time, '%Y-%m-%dT%H:%M:%S.%fZ'))
-                order.delivery_type = courier.courier_type
             order.save()
         except ValidationError as e:
             print(e.json())

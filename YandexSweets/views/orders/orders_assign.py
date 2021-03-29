@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from YandexSweets.models import Courier
 from YandexSweets.models.order import Order
 from YandexSweets.models.pydantic import OrdersAssign
-from YandexSweets.time_utils import inside_bounds, get_formatted_current_time
+from YandexSweets.time_utils import inside_bounds, get_formatted_time
 
 
 class OrdersAssignView(APIView):
@@ -32,13 +32,10 @@ class OrdersAssignView(APIView):
         }
         for order in orders:
             if order.is_inside_working_time(courier):
-                order.courier = courier
-                order.assign_to_courier_time = current_time
-
-                order.save()
+                courier.assign_order(order, current_time)
                 response_body['orders'].append({'id': order.order_id})
 
         courier.save()
         if len(response_body['orders']) > 0:
-            response_body['assign_time'] = get_formatted_current_time()
+            response_body['assign_time'] = get_formatted_time(current_time)
         return Response(data=response_body, status=status.HTTP_200_OK)

@@ -1,3 +1,4 @@
+import datetime
 from datetime import datetime as dt
 
 from typing import List, Tuple
@@ -33,8 +34,8 @@ def inside_bounds(order_time_bounds: str, courier_time_bounds: str) -> bool:
     return first_case or second_case
 
 
-def get_formatted_current_time() -> str:
-    res = dt.now().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+def get_formatted_time(timestamp: datetime) -> str:
+    res = timestamp.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
     ind = -1
     while res[ind] != '.':
         ind -= 1
