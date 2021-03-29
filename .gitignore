@@ -3,3 +3,4 @@ openapi.yaml
 YandexSweets/migrations/
 /yandex_env/
 __pycache__
+dynamic_testing.py
