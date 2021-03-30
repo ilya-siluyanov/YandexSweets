@@ -121,12 +121,14 @@ class CouriersView(APIView):
                 if not order.is_inside_working_time(courier):
                     delivery_pack.make_order_free(order)
             delivery_pack = courier.deliverypack_set.filter(delivery_ended=False).get()  # type: DeliveryPack
+
             for i in range(len(not_completed_orders) - 1, -1, -1):
                 if not_completed_orders[i].delivery_pack is not None and delivery_pack.total_weight > \
                         Courier.COURIER_MAX_WEIGHT[courier.courier_type]:
                     delivery_pack.make_order_free(not_completed_orders[i])
                 else:
                     break
+
             delivery_pack = courier.deliverypack_set.filter(delivery_ended=False).get()  # type: DeliveryPack
             for order in not_completed_orders:
                 if order.region not in courier.regions:
