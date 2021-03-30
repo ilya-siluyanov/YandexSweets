@@ -6,7 +6,8 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from YandexSweets.models import Courier
+from YandexSweets.models import Courier, Order
+from YandexSweets.models.delivery_pack import DeliveryPack
 from YandexSweets.serializers import CourierSerializer
 
 
@@ -23,26 +24,22 @@ class CouriersView(APIView):
             courier = Courier.objects.get(pk=c_id)
         except Courier.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        completed_orders = courier.order_set \
-            .filter(courier_id=courier.courier_id) \
-            .filter(completed_time__isnull=False)
-        delivery_time_and_times = {}
+        completed_delivery_packs = courier.deliverypack_set.filter(delivery_ended=True)
+        delivery_time_and_times = {}  # dict{region : {'time': sum of time, 'times' : number of orders for the region]}
         earnings = 0
-        for completed_order in completed_orders:
-            pair = delivery_time_and_times[completed_order.region] \
-                if completed_order.region in delivery_time_and_times.keys() else {}
-            for key in ('time', 'times'):
-                if key not in pair.keys():
-                    pair[key] = 0
-            pair['time'] += (completed_order.completed_time
-                             - completed_order.assign_to_courier_time).seconds
-            pair['times'] += 1
-            delivery_time_and_times[completed_order.region] = pair
-            c = CouriersView.C[completed_order.delivery_type]
+        for delivery_pack in completed_delivery_packs:
+            for completed_order in delivery_pack.orders():  # type: Order
+                if completed_order.region not in delivery_time_and_times:
+                    delivery_time_and_times[completed_order.region] = {'time': 0, 'times': 0}
+                delivery_time_and_times[completed_order.region][
+                    'time'] += completed_order.delivery_time
+                delivery_time_and_times[completed_order.region]['times'] += 1
+            c = CouriersView.C[delivery_pack.delivery_type]
             earnings += 500 * c
         t = -1
         for region_info in delivery_time_and_times.items():
-            td = region_info[1]['time'] / region_info[1]['times']
+            region_info = region_info[1]
+            td = region_info['time'] / region_info['times']
             if t == -1:
                 t = td
             else:
@@ -51,7 +48,7 @@ class CouriersView(APIView):
             t = 60 * 60
         rating = (60 * 60 - min(t, 60 * 60)) / (60 * 60) * 5
         res_body = CourierSerializer(courier).data
-        if len(completed_orders) > 0:
+        if len(completed_delivery_packs) > 0:
             res_body['rating'] = float('{:.2f}'.format(rating))
         res_body['earnings'] = earnings
         return Response(data=res_body, status=status.HTTP_200_OK)
@@ -115,18 +112,20 @@ class CouriersView(APIView):
             print(json.dumps(e.args, indent=2))
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        not_completed_orders = courier.order_set.filter(completed_time__isnull=True)
+        delivery_pack = courier.deliverypack_set.filter(delivery_ended=False).get()  # type: DeliveryPack
+        not_completed_orders = delivery_pack.order_set.filter(
+            delivery_time__isnull=True)
         for order in not_completed_orders:
             if not order.is_inside_working_time(courier):
-                courier.make_order_free(order)
+                delivery_pack.make_order_free(order)
 
         for order in not_completed_orders:
             if order.weight > Courier.COURIER_MAX_WEIGHT[courier.courier_type]:
-                courier.make_order_free(order)
+                delivery_pack.make_order_free(order)
 
         for order in not_completed_orders:
             if order.region not in courier.regions:
-                courier.make_order_free(order)
+                delivery_pack.make_order_free(order)
 
         res_body = CourierSerializer(Courier.objects.get(pk=c_id)).data
         return Response(data=res_body, status=status.HTTP_200_OK)

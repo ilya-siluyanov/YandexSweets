@@ -1,5 +1,5 @@
-from pydantic.main import BaseModel
+from pydantic.main import BaseModel, Extra
 
 
-class OrdersAssign(BaseModel):
+class OrdersAssign(BaseModel, extra=Extra.forbid):
     courier_id: int

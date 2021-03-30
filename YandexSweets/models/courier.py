@@ -29,19 +29,12 @@ class Courier(models.Model):
 
     working_hours = pg_fields.ArrayField(fields.CharField(max_length=12))
 
-    def assign_order(self, order, timestamp):
-        order.courier = self
-        order.assign_to_courier_time = timestamp
-        order.delivery_type = self.courier_type
-        order.save()
-
-    def make_order_free(self, order):
-        if order not in self.order_set.all():
-            return
-        order.courier_id = None
-        order.assign_to_courier_time = None
-        order.delivery_type = None
-        order.save()
+    def assign_pack(self, delivery_pack, timestamp):
+        delivery_pack.courier = self
+        delivery_pack.assign_time = timestamp
+        delivery_pack.delivery_type = self.courier_type
+        delivery_pack.last_complete_time = timestamp
+        delivery_pack.save()
 
     def __getitem__(self, key):
         return getattr(self, key)

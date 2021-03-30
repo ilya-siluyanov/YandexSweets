@@ -3,10 +3,11 @@ from typing import List, Tuple
 
 from django.contrib.postgres import fields as pg_fields
 from django.db import models
-from django.db.models import fields
+from django.db.models import fields, ForeignKey, CASCADE
 from rest_framework.validators import UniqueValidator
 
 from .courier import Courier
+from .delivery_pack import DeliveryPack
 from ..time_utils import parse_period
 
 
@@ -15,17 +16,16 @@ class Order(models.Model):
     weight = fields.FloatField()
     region = fields.IntegerField()
     delivery_hours = pg_fields.ArrayField(fields.CharField(max_length=12))
-    courier = models.ForeignKey(Courier, on_delete=models.CASCADE, default=None, blank=True, null=True)
-    assign_to_courier_time = fields.DateTimeField(null=True)
-    completed_time = fields.DateTimeField(null=True)
-    delivery_type = fields.CharField(max_length=4, choices=Courier.COURIER_TYPE_CHOICES, null=True)
+
+    delivery_pack = ForeignKey(DeliveryPack, on_delete=CASCADE, default=None, blank=True, null=True)
+    delivery_time = fields.IntegerField(default=None, blank=True, null=True)
 
     def is_completed(self):
-        return self.completed_time is not None
+        return self.delivery_time is not None
 
-    def set_completed(self, timestamp):
+    def set_completed(self, seconds: int):
         if not self.is_completed():
-            self.completed_time = timestamp
+            self.delivery_time = seconds
 
     def is_inside_working_time(self, courier: Courier):
         timeline = self.create_timeline(courier)
