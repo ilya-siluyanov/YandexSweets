@@ -34,6 +34,7 @@ class Courier(models.Model):
         delivery_pack.assign_time = timestamp
         delivery_pack.delivery_type = self.courier_type
         delivery_pack.last_complete_time = timestamp
+        delivery_pack.total_weight = 0
         delivery_pack.save()
 
     def __getitem__(self, key):
