@@ -10,7 +10,7 @@ class DeliveryPack(Model):
     delivery_type = fields.CharField(max_length=4, choices=Courier.COURIER_TYPE_CHOICES, default='foot')
     delivery_ended = fields.BooleanField(default=False)
     last_complete_time = fields.DateTimeField()
-    total_weight = fields.DecimalField(max_digits=7, decimal_places=3, default=0)
+    total_weight = fields.FloatField(default=0)
 
     def orders(self):
         return self.order_set.all()
