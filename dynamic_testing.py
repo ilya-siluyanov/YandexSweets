@@ -1,5 +1,6 @@
 import json
 import requests as req
+from datetime import datetime as dt
 
 headers = {
     'Content-Type': 'application/json'
@@ -55,7 +56,7 @@ response = req.post(base + 'orders/assign', data=json.dumps(body), headers=heade
 print(response.text)
 
 body = {
-    "courier_type": "car"
+    "courier_type": "foot"
 }
 
 response = req.patch(base + 'couriers/1', data=json.dumps(body), headers=headers)
@@ -70,17 +71,8 @@ print(response.text)
 
 body = {
     "courier_id": 1,
-    "order_id": 2,
-    "complete_time": "2021-03-29T20:50:01.42Z"
-}
-
-response = req.post(base + 'orders/complete', data=json.dumps(body), headers=headers)
-print(response.text)
-
-body = {
-    "courier_id": 1,
     "order_id": 3,
-    "complete_time": "2021-03-29T20:50:01.42Z"
+    "complete_time": dt.utcnow().isoformat() + 'Z'
 }
 
 response = req.post(base + 'orders/complete', data=json.dumps(body), headers=headers)
@@ -99,7 +91,7 @@ print(response.text)
 body = {
     "courier_id": 1,
     "order_id": 1,
-    "complete_time": "2021-03-29T20:55:01.42Z"
+    "complete_time": dt.utcnow().isoformat() + 'Z'
 }
 
-response = req.post(base + 'orders/assign', data=json.dumps(body), headers=headers)
+# response = req.post(base + 'orders/assign', data=json.dumps(body), headers=headers)
