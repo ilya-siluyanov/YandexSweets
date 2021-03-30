@@ -30,7 +30,7 @@ class OrdersAssignView(APIView):
         # there is delivery which is not ended
         if len(courier.deliverypack_set.filter(delivery_ended=False).all()) > 0:
             current_delivery_pack = courier.deliverypack_set.filter(delivery_ended=False).get()
-            for order in current_delivery_pack.order_set.all():
+            for order in current_delivery_pack.orders().filter(delivery_time__isnull=True):
                 response_body['orders'].append({'id': order.order_id})
             response_body['assign_time'] = get_formatted_time(current_delivery_pack.assign_time)
             return Response(data=response_body, status=status.HTTP_200_OK)

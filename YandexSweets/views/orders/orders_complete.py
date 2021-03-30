@@ -28,8 +28,8 @@ class OrdersCompleteView(APIView):
             order.save()
 
             all_orders_complete = True
-            for order in delivery_pack.orders():
-                if order.delivery_time is None:
+            for assigned_order in delivery_pack.orders():
+                if assigned_order.delivery_time is None:
                     all_orders_complete = False
                     break
             if all_orders_complete:
