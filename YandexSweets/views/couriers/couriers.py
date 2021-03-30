@@ -126,6 +126,7 @@ class CouriersView(APIView):
         for order in not_completed_orders:
             if order.region not in courier.regions:
                 delivery_pack.make_order_free(order)
-
+        if len(delivery_pack.orders()) == 0:
+            delivery_pack.delete()
         res_body = CourierSerializer(Courier.objects.get(pk=c_id)).data
         return Response(data=res_body, status=status.HTTP_200_OK)

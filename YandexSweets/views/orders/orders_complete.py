@@ -22,10 +22,11 @@ class OrdersCompleteView(APIView):
             courier = Courier.objects.get(pk=req_data.courier_id)  # type: Courier
             delivery_pack = courier.deliverypack_set.filter(delivery_ended=False).get()  # type: DeliveryPack
             order = delivery_pack.orders().get(pk=req_data.order_id)  # type: Order
+
             if order.delivery_time is None:
                 delivery_time = (
-                        dp.parse_datetime(req_data.complete_time).now() - delivery_pack.last_complete_time).seconds
-                order.set_completed(delivery_time)
+                        dp.parse_datetime(req_data.complete_time) - delivery_pack.last_complete_time)
+                order.set_completed(delivery_time.seconds)
             order.save()
 
             all_orders_complete = True

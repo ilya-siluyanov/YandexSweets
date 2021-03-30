@@ -32,7 +32,8 @@ class OrdersAssignView(APIView):
             current_delivery_pack = courier.deliverypack_set.filter(delivery_ended=False).get()
             for order in current_delivery_pack.orders().filter(delivery_time__isnull=True):
                 response_body['orders'].append({'id': order.order_id})
-            response_body['assign_time'] = get_formatted_time(current_delivery_pack.assign_time)
+            if len(response_body['orders']) > 0:
+                response_body['assign_time'] = get_formatted_time(current_delivery_pack.assign_time)
             return Response(data=response_body, status=status.HTTP_200_OK)
 
         current_time = dt.now()
@@ -42,13 +43,16 @@ class OrdersAssignView(APIView):
         orders = Order.objects.filter(delivery_pack__isnull=True)
         orders = orders.filter(region__in=courier.regions)
         orders = orders.filter(weight__lte=Courier.COURIER_MAX_WEIGHT[courier.courier_type])
-
+        orders = orders.order_by('weight')
+        max_weight = Courier.COURIER_MAX_WEIGHT[delivery_pack.delivery_type]
         for order in orders:
-            if order.is_inside_working_time(courier):
+            if delivery_pack.total_weight + order.weight <= max_weight and order.is_inside_working_time(courier):
                 delivery_pack.assign_order(order)
                 response_body['orders'].append({'id': order.order_id})
 
         courier.save()
+        if len(delivery_pack.orders()) == 0:
+            delivery_pack.delete()
         if len(response_body['orders']) > 0:
             response_body['assign_time'] = get_formatted_time(current_time)
         return Response(data=response_body, status=status.HTTP_200_OK)
