@@ -12,5 +12,5 @@ limit_request_fields_size = 0
 raw_env = 'DJANGO_SETTINGS_MODULE=YandexSweetsProject.production_settings'
 accesslog = '/home/entrant/logs/access_log.txt'
 errorlog = '/home/entrant/logs/error_log.txt'
-captureoutput = True
+capture_output = True
 loglevel = 'debug'
