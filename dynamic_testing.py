@@ -5,7 +5,7 @@ from datetime import datetime as dt
 headers = {
     'Content-Type': 'application/json'
 }
-base = 'http://178.154.207.0:8080/'
+base = 'http://127.0.0.1:8000/'
 
 couriers = {
     "data": [
@@ -72,7 +72,7 @@ print(response.text)
 body = {
     "courier_id": 1,
     "order_id": 3,
-    "complete_time": dt.utcnow().isoformat() + 'Z'
+    "complete_time": dt.now().isoformat()
 }
 
 response = req.post(base + 'orders/complete', data=json.dumps(body), headers=headers)
@@ -91,7 +91,7 @@ print(response.text)
 body = {
     "courier_id": 1,
     "order_id": 1,
-    "complete_time": dt.utcnow().isoformat() + 'Z'
+    "complete_time": dt.now().isoformat()
 }
 
 # response = req.post(base + 'orders/assign', data=json.dumps(body), headers=headers)
