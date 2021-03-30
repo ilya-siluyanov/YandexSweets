@@ -10,6 +10,7 @@ user = 'entrant'
 limit_request_fields = 32000
 limit_request_fields_size = 0
 raw_env = 'DJANGO_SETTINGS_MODULE=YandexSweetsProject.production_settings'
+accesslog = '/home/entrant/logs/access_log.txt'
 errorlog = '/home/entrant/logs/error_log.txt'
-capture_output = True
+captureoutput = True
 loglevel = 'debug'
