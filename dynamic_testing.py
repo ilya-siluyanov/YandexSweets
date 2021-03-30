@@ -5,7 +5,7 @@ from datetime import datetime as dt
 headers = {
     'Content-Type': 'application/json'
 }
-base = 'http://127.0.0.1:8000/'
+base = 'http://178.154.207.0:8080/'
 
 couriers = {
     "data": [
