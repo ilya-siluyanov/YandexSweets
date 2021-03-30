@@ -112,21 +112,40 @@ class CouriersView(APIView):
             print(json.dumps(e.args, indent=2))
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        delivery_pack = courier.deliverypack_set.filter(delivery_ended=False).get()  # type: DeliveryPack
-        not_completed_orders = delivery_pack.order_set.filter(
-            delivery_time__isnull=True)
-        for order in not_completed_orders:
-            if not order.is_inside_working_time(courier):
-                delivery_pack.make_order_free(order)
+        try:
+            delivery_pack = courier.deliverypack_set.filter(delivery_ended=False).get()  # type: DeliveryPack
+            not_completed_orders = delivery_pack.order_set.filter(
+                delivery_time__isnull=True).order_by('weight')
 
-        for order in not_completed_orders:
-            if order.weight > Courier.COURIER_MAX_WEIGHT[courier.courier_type]:
-                delivery_pack.make_order_free(order)
+            for order in not_completed_orders:
+                if not order.is_inside_working_time(courier):
+                    delivery_pack.make_order_free(order)
+            delivery_pack = courier.deliverypack_set.filter(delivery_ended=False).get()  # type: DeliveryPack
+            for i in range(len(not_completed_orders) - 1, -1, -1):
+                if not_completed_orders[i].delivery_pack is not None and delivery_pack.total_weight > \
+                        Courier.COURIER_MAX_WEIGHT[courier.courier_type]:
+                    delivery_pack.make_order_free(not_completed_orders[i])
+                else:
+                    break
+            delivery_pack = courier.deliverypack_set.filter(delivery_ended=False).get()  # type: DeliveryPack
+            for order in not_completed_orders:
+                if order.region not in courier.regions:
+                    delivery_pack.make_order_free(order)
 
-        for order in not_completed_orders:
-            if order.region not in courier.regions:
-                delivery_pack.make_order_free(order)
-        if len(delivery_pack.orders()) == 0:
-            delivery_pack.delete()
+            if len(delivery_pack.orders()) == 0:
+                delivery_pack.delete()
+            else:
+                all_orders_complete = True
+                for assigned_order in delivery_pack.orders():
+                    if assigned_order.delivery_time is None:
+                        all_orders_complete = False
+                        break
+                if all_orders_complete:
+                    delivery_pack.delivery_ended = True
+                delivery_pack.save()
+
+        except DeliveryPack.DoesNotExist as e:
+            print(e.args)
+
         res_body = CourierSerializer(Courier.objects.get(pk=c_id)).data
         return Response(data=res_body, status=status.HTTP_200_OK)

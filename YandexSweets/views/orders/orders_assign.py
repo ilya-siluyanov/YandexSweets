@@ -51,6 +51,7 @@ class OrdersAssignView(APIView):
                 response_body['orders'].append({'id': order.order_id})
 
         courier.save()
+        delivery_pack.save()
         if len(delivery_pack.orders()) == 0:
             delivery_pack.delete()
         if len(response_body['orders']) > 0:
