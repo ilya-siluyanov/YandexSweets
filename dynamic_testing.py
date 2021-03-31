@@ -17,6 +17,12 @@ request(post, 'couriers', {
     "data": [
         {
             "courier_id": 1,
+            "courier_type": "bike",
+            "regions": [1],
+            "working_hours": ["00:00-23:59"]
+        },
+        {
+            "courier_id": 2,
             "courier_type": "car",
             "regions": [1],
             "working_hours": ["00:00-23:59"]
@@ -25,38 +31,40 @@ request(post, 'couriers', {
 })
 
 request(post, 'orders', {
-    'data': [
+    "data": [
         {
-            'order_id': 1,
-            'weight': 3.5,
-            'region': 1,
-            'delivery_hours': ['10:00-11:00']
+            "order_id": 1,
+            "weight": 8,
+            "region": 1,
+            "delivery_hours": ["11:00-12:00"]
         },
         {
-            'order_id': 2,
-            'weight': 10,
-            'region': 1,
-            'delivery_hours': ['10:00-11:00']
+            "order_id": 2,
+            "weight": 12,
+            "region": 1,
+            "delivery_hours": ["11:00-12:00"]
         },
         {
-            'order_id': 3,
-            'weight': 20,
-            'region': 1,
-            'delivery_hours': ['10:00-11:00']
+            "order_id": 3,
+            "weight": 14,
+            "region": 1,
+            "delivery_hours": ["11:00-12:00"]
         },
         {
-            'order_id': 4,
-            'weight': 15,
-            'region': 1,
-            'delivery_hours': ['10:00-11:00']
+            "order_id": 4,
+            "weight": 16,
+            "region": 1,
+            "delivery_hours": ["11:00-12:00"]
         },
     ]
 })
 
-request(post, 'orders/assign', {'courier_id': 1})
+request(post, 'orders/assign', {"courier_id": 1})
 
-request(patch, 'couriers/1', {'courier_type': 'foot'})
-request(post, 'orders/assign', {'courier_id': 1})
-request(post, 'orders/complete', {'order_id': 1, 'courier_id': 1, 'complete_time': dt.utcnow().isoformat() + 'Z'})
+request(patch, 'couriers/1', {"courier_type": "foot"})
+
+request(post, 'orders/assign', {"courier_id": 2})
+
+request(post, 'orders/complete', {'courier_id': 1, 'order_id': 1, 'complete_time': dt.utcnow().isoformat() + 'Z'})
+
 request(get, 'couriers/1')
-request(post, 'orders/assign', {'courier_id': 1})

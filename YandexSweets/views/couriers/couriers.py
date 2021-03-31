@@ -60,7 +60,7 @@ class CouriersView(APIView):
 
         courier_ids = []
         invalid_courier_ids = []
-
+        correct_couriers_serializers = []
         for courier in courier_list:
             courier_id = courier['courier_id']
             dict_courier_id = {'id': courier_id}
@@ -73,7 +73,7 @@ class CouriersView(APIView):
             except Courier.DoesNotExist:
                 serializer = CourierSerializer(data=courier)
                 if serializer.is_valid():
-                    serializer.save()
+                    correct_couriers_serializers.append(serializer)
                 else:
                     for error in serializer.errors.items():
                         dict_courier_id[error[0]] = str(error[1][0])
@@ -91,6 +91,8 @@ class CouriersView(APIView):
             response_body = {
                 'couriers': courier_ids
             }
+            for courier_serializer in correct_couriers_serializers:
+                courier_serializer.save()
             response_body = response_body
             response_status = status.HTTP_201_CREATED
         return Response(data=response_body, status=response_status)

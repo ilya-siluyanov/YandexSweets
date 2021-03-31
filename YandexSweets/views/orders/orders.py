@@ -19,6 +19,7 @@ class OrdersView(APIView):
         orders_list = req_body['data']
         order_ids = []
         invalid_order_ids = []
+        correct_order_serializers = []
         for order in orders_list:
             order_id = order['order_id']
             dict_order_id = {'id': order_id}
@@ -30,7 +31,7 @@ class OrdersView(APIView):
             except Order.DoesNotExist:
                 serializer = OrderSerializer(data=order)
                 if serializer.is_valid():
-                    serializer.save()
+                    correct_order_serializers.append(serializer)
                 else:
                     for error in serializer.errors.items():
                         dict_order_id[error[0]] = str(error[1][0])
@@ -47,5 +48,7 @@ class OrdersView(APIView):
             response_body = {
                 'orders': order_ids
             }
+            for order_serializer in correct_order_serializers:
+                order_serializer.save()
             response_status = status.HTTP_201_CREATED
         return Response(data=response_body, status=response_status)
