@@ -1,0 +1,7 @@
+openapi.yaml
+.idea
+.vscode
+yandex_env
+__pycache__
+dynamic_testing.py
+courier_0.json
