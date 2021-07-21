@@ -1,6 +1,7 @@
 openapi.yaml
 .idea
-YandexSweets/migrations/
-/yandex_env/
+.vscode
+yandex_env
 __pycache__
 dynamic_testing.py
+courier_0.json
