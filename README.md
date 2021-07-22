@@ -3,46 +3,19 @@
 
 <h2>How to install this application?</h2>
 <ol>
-    <h3>I configured these files on virtual machine so that it works and restarts automatically, but in case of problems...</h3>
+    <li>
+        Install docker on your machine
+    </li>
     <li>
         download the repository from github
         (git clone https://github.com/ilya-siluyanov/YandexSweets)
     </li>
-    <li>
-        configure gunicorn_config.py inside YandexSweetsProject directory
-        (there are detailed explanation of each line of code)
-    </li>
-    <li>
-        configure start_gunicorn.sh (there are detailed explanation of each line of code)
-    </li>
-    <li>
-        Check whether start_gunicorn.sh is marked as executable  (or mark it by chmod +x start_gunicorn.sh)
-    </li>
-    <li>
-        configure Nginx or use the template in config directory, copy the content of default to /etc/nginx/sites-enabled/default
-    </li>
-    <li>
-        copy gunicorn.service from config directory to /etc/systemd/system directory
-    </li>
-    <li>
-        for postgres user set password postgres
-    </li>
-    <li>
-        create database yandex_database
-    </li>
+    
 </ol>
 <h2>How to launch service?</h2>
-Actually, if everything is okay, then it should start on system startup 
-<ol>
-    <li>
-        restart (or start) gunicorn.service
-    </li>
-    <li>
-        restart (or start) nginx.service
-    </li>
-<h2>How to launch tests?</h2>
-<p>Inside of the YandexSweets package execute <code>python3 manage.py test</code></p>
-</ol>
+<p>Run docker compose in the project directory</p>
+<code>docker compose up -d</code>
+
 
 
 
