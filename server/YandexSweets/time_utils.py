@@ -26,6 +26,10 @@ def is_correct_hours(hours: str) -> bool:
 
 
 def inside_bounds(order_time_bounds: str, courier_time_bounds: str) -> bool:
+    """
+    returns whether or not order can be delivered
+    by a courier with specified working time period
+    """
     order_time_bounds = parse_period(order_time_bounds)
     lower_bound, upper_bound = parse_period(courier_time_bounds)
     first_case = lower_bound <= order_time_bounds[0] <= upper_bound
