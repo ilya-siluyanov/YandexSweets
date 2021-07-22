@@ -1,17 +1,25 @@
 version: "3.9"
 
 services: 
-    db:
+    postgres:
         image: postgres:latest
         env_file: 
-            - conn_pg.env
+            - .env
         ports: 
             - 5432:5432
+        tty: true
+
     server:
-        build: .
+        build: ./server
         env_file:
-            - conn_pg.env
+            - .env
+        depends_on: 
+            - postgres
+        tty: true
+
     nginx:
-        image: nginx:latest
+        build: ./nginx
         ports:
-            - 8000:8000
+            - 8080:8080
+        depends_on: 
+            - server
