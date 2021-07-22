@@ -16,5 +16,7 @@
 <p>Run docker compose in the project directory</p>
 <code>docker compose up -d</code>
 <h2>Dependencies</h2>
-Docker must be installed
-Server application dependencies are specified in ./server/requirements.txt file
+<ul>
+    <li>Docker must be installed</li>
+    <li>Server application dependencies are specified in ./server/requirements.txt file</li>
+</ul>
