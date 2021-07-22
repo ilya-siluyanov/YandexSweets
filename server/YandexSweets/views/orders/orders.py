@@ -5,8 +5,8 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from YandexSweets.models.order import Order
-from YandexSweets.serializers.order_serializer import OrderSerializer
+from ...models.order import Order
+from ...serializers.order_serializer import OrderSerializer
 
 
 class OrdersView(APIView):

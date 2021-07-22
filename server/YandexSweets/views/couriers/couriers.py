@@ -6,9 +6,9 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from YandexSweets.models import Courier, Order
-from YandexSweets.models.delivery_pack import DeliveryPack
-from YandexSweets.serializers import CourierSerializer
+from ...models import Courier, Order
+from ...models.delivery_pack import DeliveryPack
+from ...serializers import CourierSerializer
 
 
 class CouriersView(APIView):

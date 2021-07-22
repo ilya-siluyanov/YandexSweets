@@ -7,10 +7,10 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from YandexSweets.models import Courier
-from YandexSweets.models.delivery_pack import DeliveryPack
-from YandexSweets.models.order import Order
-from YandexSweets.models.pydantic import OrderComplete
+from ...models import Courier
+from ...models.delivery_pack import DeliveryPack
+from ...models.order import Order
+from ...models.pydantic import OrderComplete
 
 
 class OrdersCompleteView(APIView):

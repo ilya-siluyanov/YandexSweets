@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from YandexSweets.models import Order
+from ..models import Order
 
 
 class K(ModelSerializer):

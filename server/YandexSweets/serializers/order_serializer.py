@@ -4,9 +4,9 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueValidator
 
-from YandexSweets.models import Courier
-from YandexSweets.models.order import Order
-from YandexSweets.time_utils import get_start_end_period, is_correct_hours
+from ..models import Courier
+from ..models.order import Order
+from ..time_utils import get_start_end_period, is_correct_hours
 
 
 class OrderSerializer(serializers.Serializer):

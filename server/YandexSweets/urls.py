@@ -1,6 +1,6 @@
 from django.urls import path
 
-from YandexSweets import views
+from . import views
 
 urlpatterns = [
     path('couriers', views.CouriersView.as_view()),
