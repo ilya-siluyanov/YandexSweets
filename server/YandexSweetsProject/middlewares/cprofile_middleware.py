@@ -16,7 +16,7 @@ class CProfileMiddleware:
             profile = cProfile.Profile()
             response = profile.runcall(self._get_response, request)
             with open('logs/cProfile.log', mode='w') as f:
-                pstats.Stats(profile, stream=f).sort_stats('cumtime').print_stats(50)
+                pstats.Stats(profile, stream=f).sort_stats('tottime').print_stats(50)
         else:
             response = self._get_response(request)
         return response

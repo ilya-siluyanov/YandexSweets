@@ -1,58 +1,58 @@
-         610555 function calls (610238 primitive calls) in 13.705 seconds
+         19307 function calls (19081 primitive calls) in 0.498 seconds
 
-   Ordered by: cumulative time
-   List reduced from 985 to 50 due to restriction <50>
+   Ordered by: internal time
+   List reduced from 821 to 50 due to restriction <50>
 
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-        1    0.000    0.000   13.705   13.705 /usr/local/lib/python3.9/site-packages/django/core/handlers/exception.py:44(inner)
-        1    0.000    0.000   13.705   13.705 /usr/local/lib/python3.9/site-packages/django/core/handlers/base.py:160(_get_response)
-        1    0.000    0.000   13.697   13.697 /usr/local/lib/python3.9/site-packages/django/views/decorators/csrf.py:53(wrapped_view)
-        1    0.000    0.000   13.697   13.697 /usr/local/lib/python3.9/site-packages/django/views/generic/base.py:62(view)
-        1    0.000    0.000   13.697   13.697 /usr/local/lib/python3.9/site-packages/rest_framework/views.py:485(dispatch)
-        1    0.001    0.001   13.687   13.687 /app/YandexSweets/views/orders/orders_assign.py:16(post)
-        1    0.495    0.495   13.415   13.415 /app/YandexSweets/models/order.py:26(is_inside_working_time)
-    40000    1.311    0.000   12.920    0.000 /app/YandexSweets/time_utils.py:29(inside_bounds)
-    80000    3.473    0.000   11.609    0.000 /app/YandexSweets/time_utils.py:16(parse_period)
-   160000    3.930    0.000    5.613    0.000 /app/YandexSweets/time_utils.py:6(seconds_from_day_start)
-   240017    2.534    0.000    2.534    0.000 {method 'split' of 'str' objects}
-    80000    1.673    0.000    2.523    0.000 /app/YandexSweets/time_utils.py:12(get_start_end_period)
-        8    0.001    0.000    0.136    0.017 /usr/local/lib/python3.9/site-packages/django/db/models/sql/compiler.py:1147(execute_sql)
-        4    0.000    0.000    0.101    0.025 /usr/local/lib/python3.9/site-packages/django/db/models/query.py:1322(_fetch_all)
-        6    0.001    0.000    0.101    0.017 /usr/local/lib/python3.9/site-packages/django/db/models/query.py:45(__iter__)
-        7    0.000    0.000    0.085    0.012 /usr/local/lib/python3.9/site-packages/django/db/models/manager.py:84(manager_method)
-  258/215    0.003    0.000    0.075    0.000 {built-in method builtins.len}
-        3    0.000    0.000    0.073    0.024 /usr/local/lib/python3.9/site-packages/django/db/models/base.py:672(save)
-        3    0.000    0.000    0.072    0.024 /usr/local/lib/python3.9/site-packages/django/db/models/base.py:730(save_base)
-        3    0.000    0.000    0.072    0.024 /usr/local/lib/python3.9/site-packages/django/db/models/query.py:261(__len__)
-        3    0.000    0.000    0.071    0.024 /usr/local/lib/python3.9/site-packages/django/db/models/base.py:809(_save_table)
-        2    0.000    0.000    0.057    0.028 /usr/local/lib/python3.9/site-packages/django/db/models/base.py:874(_do_update)
-       10    0.000    0.000    0.055    0.006 /usr/local/lib/python3.9/site-packages/django/db/models/query.py:935(filter)
-       11    0.001    0.000    0.055    0.005 /usr/local/lib/python3.9/site-packages/django/db/models/sql/query.py:1381(add_q)
-       10    0.000    0.000    0.053    0.005 /usr/local/lib/python3.9/site-packages/django/db/models/query.py:964(_filter_or_exclude_inplace)
-    12/11    0.001    0.000    0.053    0.005 /usr/local/lib/python3.9/site-packages/django/db/models/sql/query.py:1401(_add_q)
-        4    0.001    0.000    0.049    0.012 /usr/local/lib/python3.9/site-packages/django/db/models/sql/compiler.py:503(as_sql)
-        2    0.000    0.000    0.048    0.024 /usr/local/lib/python3.9/site-packages/django/db/models/query.py:788(_update)
-       10    0.001    0.000    0.048    0.005 /usr/local/lib/python3.9/site-packages/django/db/models/query.py:951(_filter_or_exclude)
-        1    0.000    0.000    0.046    0.046 /usr/local/lib/python3.9/site-packages/django/db/models/query.py:414(get)
-        2    0.000    0.000    0.046    0.023 /usr/local/lib/python3.9/site-packages/django/db/models/sql/compiler.py:1552(execute_sql)
-    12/11    0.003    0.000    0.044    0.004 /usr/local/lib/python3.9/site-packages/django/db/models/sql/query.py:1231(build_filter)
-        2    0.001    0.000    0.036    0.018 /usr/local/lib/python3.9/site-packages/django/db/models/sql/compiler.py:1489(as_sql)
-        4    0.000    0.000    0.035    0.009 /usr/local/lib/python3.9/site-packages/django/db/models/sql/compiler.py:49(pre_sql_setup)
-        1    0.000    0.000    0.034    0.034 /usr/local/lib/python3.9/site-packages/django/db/models/base.py:945(delete)
-       15    0.000    0.000    0.030    0.002 /usr/local/lib/python3.9/site-packages/django/db/models/fields/__init__.py:840(get_db_prep_save)
-        1    0.000    0.000    0.029    0.029 /usr/local/lib/python3.9/site-packages/django/db/models/query.py:265(__iter__)
-    35/13    0.002    0.000    0.028    0.002 /usr/local/lib/python3.9/site-packages/django/utils/asyncio.py:14(inner)
-        2    0.000    0.000    0.028    0.014 /usr/local/lib/python3.9/site-packages/django/contrib/postgres/fields/array.py:96(get_db_prep_value)
-        2    0.003    0.001    0.028    0.014 /usr/local/lib/python3.9/site-packages/django/contrib/postgres/fields/array.py:98(<listcomp>)
-      221    0.004    0.000    0.026    0.000 /usr/local/lib/python3.9/site-packages/django/db/models/fields/__init__.py:830(get_db_prep_value)
-        9    0.001    0.000    0.025    0.003 /usr/local/lib/python3.9/site-packages/django/db/backends/utils.py:96(execute)
+        1    0.049    0.049    0.242    0.242 /app/YandexSweets/models/order.py:43(create_timeline)
+     1600    0.047    0.000    0.066    0.000 /app/YandexSweets/time_utils.py:6(seconds_from_day_start)
+      800    0.042    0.000    0.137    0.000 /app/YandexSweets/time_utils.py:16(parse_period)
+     2416    0.028    0.000    0.028    0.000 {method 'split' of 'str' objects}
+      800    0.020    0.000    0.029    0.000 /app/YandexSweets/time_utils.py:12(get_start_end_period)
+1805/1773    0.018    0.000    0.072    0.000 {built-in method builtins.len}
+       10    0.018    0.002    0.019    0.002 {method 'execute' of 'psycopg2.extensions.cursor' objects}
+     1112    0.011    0.000    0.011    0.000 {method 'append' of 'list' objects}
+      400    0.011    0.000    0.087    0.000 /app/YandexSweets/models/order.py:44(sorting_function)
+      839    0.009    0.000    0.012    0.000 {built-in method builtins.isinstance}
+      809    0.009    0.000    0.009    0.000 {method 'append' of 'collections.deque' objects}
+      800    0.008    0.000    0.008    0.000 {method 'popleft' of 'collections.deque' objects}
+      203    0.007    0.000    0.019    0.000 /usr/local/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1072(get_prep_value)
+        2    0.006    0.003    0.093    0.047 {method 'sort' of 'list' objects}
+  422/392    0.006    0.000    0.015    0.000 {built-in method builtins.getattr}
+      459    0.005    0.000    0.005    0.000 {built-in method builtins.hasattr}
+        1    0.005    0.005    0.006    0.006 {built-in method psycopg2._psycopg._connect}
+      221    0.005    0.000    0.024    0.000 /usr/local/lib/python3.9/site-packages/django/db/models/fields/__init__.py:830(get_db_prep_value)
+      233    0.005    0.000    0.007    0.000 /usr/local/lib/python3.9/site-packages/django/db/models/fields/__init__.py:824(get_prep_value)
+      203    0.004    0.000    0.006    0.000 /usr/local/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1067(to_python)
+        1    0.004    0.004    0.005    0.005 /usr/local/lib/python3.9/site-packages/rest_framework/utils/mediatypes.py:29(order_by_precedence)
+    12/11    0.003    0.000    0.035    0.003 /usr/local/lib/python3.9/site-packages/django/db/models/sql/query.py:1231(build_filter)
+       19    0.003    0.000    0.007    0.000 /usr/local/lib/python3.9/site-packages/django/db/models/sql/query.py:296(clone)
+       58    0.002    0.000    0.005    0.000 /usr/local/lib/python3.9/site-packages/django/db/models/fields/__init__.py:515(__eq__)
+       87    0.002    0.000    0.005    0.000 /usr/local/lib/python3.9/site-packages/django/db/models/sql/compiler.py:423(quote_name_unless_alias)
+        2    0.002    0.001    0.026    0.013 /usr/local/lib/python3.9/site-packages/django/contrib/postgres/fields/array.py:98(<listcomp>)
+    35/13    0.002    0.000    0.022    0.002 /usr/local/lib/python3.9/site-packages/django/utils/asyncio.py:14(inner)
+    81/80    0.002    0.000    0.006    0.000 {method 'join' of 'str' objects}
     59/36    0.002    0.000    0.024    0.001 /usr/local/lib/python3.9/site-packages/django/db/models/sql/compiler.py:440(compile)
-        1    0.000    0.000    0.024    0.024 /usr/local/lib/python3.9/site-packages/django/db/models/deletion.py:379(delete)
-        4    0.000    0.000    0.022    0.005 /usr/local/lib/python3.9/site-packages/django/db/models/sql/compiler.py:43(setup_query)
-   103/66    0.003    0.000    0.021    0.000 /usr/local/lib/python3.9/site-packages/django/utils/functional.py:40(__get__)
-        4    0.002    0.000    0.021    0.005 /usr/local/lib/python3.9/site-packages/django/db/models/sql/compiler.py:199(get_select)
-      203    0.007    0.000    0.021    0.000 /usr/local/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1072(get_prep_value)
-        9    0.000    0.000    0.020    0.002 /usr/local/lib/python3.9/site-packages/django/db/backends/utils.py:65(execute)
-        9    0.000    0.000    0.020    0.002 /usr/local/lib/python3.9/site-packages/django/db/backends/utils.py:71(_execute_with_wrappers)
+    75/53    0.002    0.000    0.013    0.000 /usr/local/lib/python3.9/site-packages/django/utils/functional.py:40(__get__)
+        1    0.002    0.002    0.002    0.002 {method 'commit' of 'psycopg2.extensions.connection' objects}
+      185    0.002    0.000    0.002    0.000 {method 'copy' of 'dict' objects}
+      152    0.002    0.000    0.002    0.000 {method 'get' of 'dict' objects}
+       30    0.002    0.000    0.006    0.000 /usr/local/lib/python3.9/site-packages/asgiref/local.py:46(_get_context_id)
+        4    0.002    0.000    0.018    0.004 /usr/local/lib/python3.9/site-packages/django/db/models/sql/compiler.py:199(get_select)
+       13    0.001    0.000    0.006    0.000 /usr/local/lib/python3.9/copy.py:66(copy)
+       30    0.001    0.000    0.008    0.000 /usr/local/lib/python3.9/site-packages/asgiref/local.py:82(_get_storage)
+       24    0.001    0.000    0.004    0.000 /usr/local/lib/python3.9/site-packages/django/db/models/sql/query.py:1474(names_to_path)
+        1    0.001    0.001    0.482    0.482 /app/YandexSweets/views/orders/orders_assign.py:16(post)
+      4/1    0.001    0.000    0.006    0.006 /usr/local/lib/python3.9/sre_parse.py:493(_parse)
+       53    0.001    0.000    0.002    0.000 /usr/local/lib/python3.9/site-packages/django/db/backends/postgresql/operations.py:114(quote_name)
+    12/11    0.001    0.000    0.043    0.004 /usr/local/lib/python3.9/site-packages/django/db/models/sql/query.py:1401(_add_q)
+       72    0.001    0.000    0.003    0.000 {built-in method __new__ of type object at 0x7fced77d9980}
+       35    0.001    0.000    0.006    0.000 /usr/local/lib/python3.9/site-packages/django/db/models/fields/__init__.py:394(get_col)
+       35    0.001    0.000    0.002    0.000 {built-in method _asyncio.get_event_loop}
+        4    0.001    0.000    0.009    0.002 /usr/local/lib/python3.9/site-packages/django/db/models/sql/compiler.py:662(get_default_columns)
+        4    0.001    0.000    0.048    0.012 /usr/local/lib/python3.9/site-packages/django/db/models/sql/compiler.py:503(as_sql)
+       97    0.001    0.000    0.001    0.000 {method 'extend' of 'list' objects}
+       30    0.001    0.000    0.010    0.000 /usr/local/lib/python3.9/site-packages/asgiref/local.py:101(__getattr__)
+       34    0.001    0.000    0.002    0.000 /usr/local/lib/python3.9/site-packages/django/utils/tree.py:78(add)
 
 
