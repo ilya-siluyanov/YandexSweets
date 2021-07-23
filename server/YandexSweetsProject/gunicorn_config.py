@@ -10,6 +10,7 @@ bind = '0.0.0.0:8000'
 # workers = cores*2+1
 workers = 9
 user = 'root'
+timeout = 300
 limit_request_fields = 32000
 limit_request_fields_size = 0
 raw_env = 'DJANGO_SETTINGS_MODULE=YandexSweetsProject.settings'

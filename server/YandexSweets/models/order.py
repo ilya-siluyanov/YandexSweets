@@ -1,10 +1,6 @@
-from collections import deque
-from typing import List, Tuple
-
 from django.contrib.postgres import fields as pg_fields
 from django.db import models
 from django.db.models import fields, ForeignKey, CASCADE
-from rest_framework.validators import UniqueValidator
 
 from .courier import Courier
 from .delivery_pack import DeliveryPack

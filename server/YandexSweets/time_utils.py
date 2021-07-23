@@ -4,7 +4,8 @@ from typing import List, Tuple
 
 
 def seconds_from_day_start(time: str) -> int:
-    hours, minutes = [int(i) for i in time.split(':')]
+    res = time.split(':')
+    hours, minutes = map(int, res)
     return hours * 3600 + minutes * 60
 
 
