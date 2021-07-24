@@ -24,7 +24,7 @@ class CProfileMiddleware:
             profile = cProfile.Profile()
             response = profile.runcall(self._get_response, request)
             with open(cprofile_dest, mode='w') as f:
-                pstats.Stats(profile, stream=f).sort_stats(sort_key).print_stats(amount)
+                pstats.Stats(profile, stream=f).sort_stats(sort_key).print_stats(amount, '/app/YandexSweets/.*.py')
         else:
             response = self._get_response(request)
         return response
