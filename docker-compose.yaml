@@ -1,11 +1,11 @@
 version: "3.9"
 
-services: 
+services:
     postgres:
         image: postgres:latest
-        env_file: 
+        env_file:
             - .env
-        ports: 
+        ports:
             - 5432:5432
         tty: true
 
@@ -13,15 +13,22 @@ services:
         build: ./server
         env_file:
             - .env
-        depends_on: 
+        environment:
+            - ENDPOINT_TO_PROFILE=/orders/assign
+            - CPROFILE_DEST=/app/logs/cprofile.log
+            - CPROFILE_SORT_BY=cumtime
+            - CPROFILE_OUTPUT_NUMBER=50
+            - TMALLOC_ENDPOINT=/orders/assign
+            - TMALLOC_FILTER_PATTERN=/app/YandexSweets/*.py
+        depends_on:
             - postgres
         tty: true
         volumes:
-        -   ./server/:/app/
+            - ./server/logs:/app/logs
 
     nginx:
         build: ./nginx
         ports:
             - 8080:8080
-        depends_on: 
+        depends_on:
             - server

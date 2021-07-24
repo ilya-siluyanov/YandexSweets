@@ -1,0 +1,58 @@
+         148304 function calls (147976 primitive calls) in 3.930 seconds
+
+   Ordered by: cumulative time
+   List reduced from 1064 to 50 due to restriction <50>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      2/1    0.000    0.000    3.930    3.930 /usr/local/lib/python3.9/site-packages/django/core/handlers/exception.py:44(inner)
+        1    0.005    0.005    3.930    3.930 /app/YandexSweetsProject/middlewares/tracemalloc_middleware.py:15(__call__)
+        2    0.000    0.000    3.141    1.571 /usr/local/lib/python3.9/tracemalloc.py:452(filter_traces)
+        2    0.117    0.059    3.141    1.570 /usr/local/lib/python3.9/tracemalloc.py:469(<listcomp>)
+     6435    0.210    0.000    3.023    0.000 /usr/local/lib/python3.9/tracemalloc.py:441(_filter_trace)
+6452/6442    0.217    0.000    2.804    0.000 {built-in method builtins.any}
+    12870    0.238    0.000    2.597    0.000 /usr/local/lib/python3.9/tracemalloc.py:443(<genexpr>)
+     6435    0.181    0.000    2.359    0.000 /usr/local/lib/python3.9/tracemalloc.py:390(_match)
+     6435    0.165    0.000    2.178    0.000 /usr/local/lib/python3.9/tracemalloc.py:379(_match_traceback)
+     6435    0.166    0.000    2.012    0.000 /usr/local/lib/python3.9/tracemalloc.py:376(_match_frame)
+     6435    0.249    0.000    1.846    0.000 /usr/local/lib/python3.9/tracemalloc.py:367(_match_frame_impl)
+     6435    0.331    0.000    1.035    0.000 /usr/local/lib/python3.9/fnmatch.py:25(fnmatch)
+    19345    0.432    0.000    0.639    0.000 /usr/local/lib/python3.9/posixpath.py:52(normcase)
+        1    0.000    0.000    0.599    0.599 /usr/local/lib/python3.9/site-packages/django/core/handlers/base.py:160(_get_response)
+        1    0.000    0.000    0.594    0.594 /usr/local/lib/python3.9/site-packages/django/views/decorators/csrf.py:53(wrapped_view)
+        1    0.000    0.000    0.594    0.594 /usr/local/lib/python3.9/site-packages/django/views/generic/base.py:62(view)
+        1    0.000    0.000    0.594    0.594 /usr/local/lib/python3.9/site-packages/rest_framework/views.py:485(dispatch)
+        1    0.001    0.001    0.585    0.585 /app/YandexSweets/views/orders/orders_assign.py:16(post)
+     6436    0.254    0.000    0.563    0.000 /usr/local/lib/python3.9/tracemalloc.py:338(_normalize_filename)
+     6435    0.165    0.000    0.285    0.000 /usr/local/lib/python3.9/fnmatch.py:70(fnmatchcase)
+        1    0.000    0.000    0.271    0.271 /app/YandexSweets/models/order.py:30(is_inside_working_time)
+        1    0.056    0.056    0.271    0.271 /app/YandexSweets/models/order.py:43(create_timeline)
+    19426    0.208    0.000    0.208    0.000 {built-in method posix.fspath}
+      800    0.043    0.000    0.159    0.000 /app/YandexSweets/time_utils.py:16(parse_period)
+        8    0.001    0.000    0.150    0.019 /usr/local/lib/python3.9/site-packages/django/db/models/sql/compiler.py:1147(execute_sql)
+        4    0.000    0.000    0.114    0.028 /usr/local/lib/python3.9/site-packages/django/db/models/query.py:1322(_fetch_all)
+        6    0.001    0.000    0.113    0.019 /usr/local/lib/python3.9/site-packages/django/db/models/query.py:45(__iter__)
+     6437    0.107    0.000    0.107    0.000 {method 'match' of 're.Pattern' objects}
+       39    0.002    0.000    0.103    0.003 /usr/local/lib/python3.9/logging/__init__.py:1448(warning)
+1887/1841    0.021    0.000    0.102    0.000 {built-in method builtins.len}
+       39    0.002    0.000    0.100    0.003 /usr/local/lib/python3.9/logging/__init__.py:1565(_log)
+        7    0.000    0.000    0.099    0.014 /usr/local/lib/python3.9/site-packages/django/db/models/manager.py:84(manager_method)
+        4    0.006    0.001    0.096    0.024 {method 'sort' of 'list' objects}
+     6437    0.089    0.000    0.089    0.000 {method 'endswith' of 'str' objects}
+        3    0.000    0.000    0.086    0.029 /usr/local/lib/python3.9/site-packages/django/db/models/base.py:672(save)
+      400    0.009    0.000    0.086    0.000 /app/YandexSweets/models/order.py:44(sorting_function)
+     1600    0.061    0.000    0.085    0.000 /app/YandexSweets/time_utils.py:6(seconds_from_day_start)
+        3    0.000    0.000    0.085    0.028 /usr/local/lib/python3.9/site-packages/django/db/models/base.py:730(save_base)
+        3    0.000    0.000    0.083    0.028 /usr/local/lib/python3.9/site-packages/django/db/models/base.py:809(_save_table)
+        3    0.000    0.000    0.080    0.027 /usr/local/lib/python3.9/site-packages/django/db/models/query.py:261(__len__)
+       39    0.002    0.000    0.071    0.002 /usr/local/lib/python3.9/logging/__init__.py:1591(handle)
+       39    0.001    0.000    0.069    0.002 /usr/local/lib/python3.9/logging/__init__.py:1645(callHandlers)
+       39    0.003    0.000    0.067    0.002 /usr/local/lib/python3.9/logging/__init__.py:939(handle)
+       10    0.000    0.000    0.065    0.007 /usr/local/lib/python3.9/site-packages/django/db/models/query.py:935(filter)
+       11    0.001    0.000    0.065    0.006 /usr/local/lib/python3.9/site-packages/django/db/models/sql/query.py:1381(add_q)
+       10    0.000    0.000    0.064    0.006 /usr/local/lib/python3.9/site-packages/django/db/models/query.py:964(_filter_or_exclude_inplace)
+        2    0.000    0.000    0.063    0.032 /usr/local/lib/python3.9/site-packages/django/db/models/base.py:874(_do_update)
+    12/11    0.002    0.000    0.063    0.006 /usr/local/lib/python3.9/site-packages/django/db/models/sql/query.py:1401(_add_q)
+       39    0.002    0.000    0.060    0.002 /usr/local/lib/python3.9/logging/__init__.py:1071(emit)
+       10    0.001    0.000    0.057    0.006 /usr/local/lib/python3.9/site-packages/django/db/models/query.py:951(_filter_or_exclude)
+
+
