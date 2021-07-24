@@ -699,3 +699,9 @@ root:2021-07-24 15:46:16,199	{"orders":[]} 200
 root:2021-07-24 15:56:52,731	{"couriers":[{"id":1}]} 201
 root:2021-07-24 15:56:53,008	{"orders":[{"id":1}]} 201
 root:2021-07-24 15:57:16,564	{"orders":[]} 200
+root:2021-07-24 16:00:15,219	{"couriers":[{"id":1}]} 201
+root:2021-07-24 16:00:15,476	{"orders":[{"id":1}]} 201
+root:2021-07-24 16:00:18,287	{"orders":[]} 200
+root:2021-07-24 20:37:07,996	{"validation_error":{"couriers":[{"id":1,"description":"There is an existing courier with such id"}]}} 400
+root:2021-07-24 20:37:08,056	{"validation_error":{"orders":[{"id":1,"description":"There is an existing order with such id"}]}} 400
+root:2021-07-24 20:37:12,229	{"orders":[]} 200

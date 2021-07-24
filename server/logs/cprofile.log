@@ -1,15 +1,15 @@
-         720637 function calls (720309 primitive calls) in 23.144 seconds
+         148384 function calls (148056 primitive calls) in 3.893 seconds
 
    Ordered by: cumulative time
-   List reduced from 1062 to 50 due to restriction <50>
+   List reduced from 1064 to 50 due to restriction <50>
    List reduced from 50 to 6 due to restriction <'/app/YandexSweets/.*.py'>
 
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-        1    0.001    0.001   20.489   20.489 /app/YandexSweets/views/orders/orders_assign.py:16(post)
-        1    0.693    0.693   20.170   20.170 /app/YandexSweets/models/order.py:30(is_inside_working_time)
-    40000    1.704    0.000   19.477    0.000 /app/YandexSweets/time_utils.py:29(inside_bounds)
-    80000    4.791    0.000   17.773    0.000 /app/YandexSweets/time_utils.py:16(parse_period)
-   160000    6.864    0.000    9.496    0.000 /app/YandexSweets/time_utils.py:6(seconds_from_day_start)
-    80000    2.155    0.000    3.487    0.000 /app/YandexSweets/time_utils.py:12(get_start_end_period)
+        1    0.001    0.001    0.581    0.581 /app/YandexSweets/views/orders/orders_assign.py:16(post)
+        1    0.000    0.000    0.270    0.270 /app/YandexSweets/models/order.py:29(is_inside_working_time)
+        1    0.055    0.055    0.270    0.270 /app/YandexSweets/models/order.py:42(create_timeline)
+      800    0.043    0.000    0.159    0.000 /app/YandexSweets/time_utils.py:16(parse_period)
+      400    0.010    0.000    0.091    0.000 /app/YandexSweets/models/order.py:43(sorting_function)
+     1600    0.061    0.000    0.084    0.000 /app/YandexSweets/time_utils.py:6(seconds_from_day_start)
 
 
